@@ -1,0 +1,55 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/main"
+            android:icon="@android:drawable/ic_menu_myplaces"
+            android:title="@string/menu_main_label"></item>
+        <item
+            android:id="@+id/appointments"
+            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:title="@string/menu_appointments_label" />
+        <item
+            android:id="@+id/new_appointment"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="@string/menu_new_appointment_label" />
+        <item
+            android:id="@+id/settings"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="@string/menu_settings_label"></item>
+        <!--
+        <item
+            android:id="@+id/test_cardview"
+            android:title="Test CardView" />
+        <item
+            android:id="@+id/test_cardview_fragment"
+            android:title="Test CardView F" />
+-->
+        <!--
+        <item android:id="@+id/call"
+            android:title="Call"
+            android:icon="@android:drawable/ic_menu_call">
+        </item>
+        -->
+    </group>
+    <!--
+    <item android:title="Communicate">
+        <menu>
+            <item android:id="@+id/send"
+                android:title="Send"
+                android:icon="@android:drawable/ic_menu_send">
+            </item>
+            <item android:id="@+id/share"
+                android:title="Share"
+                android:icon="@android:drawable/ic_menu_share">
+            </item>
+            <item android:id="@+id/close"
+                android:title="Close"
+                android:icon="@android:drawable/ic_menu_close_clear_cancel">
+            </item>
+        </menu>
+
+    </item>
+    -->
+</menu>

@@ -1,0 +1,10 @@
+Raport 1 - 20.05.2020
+
+Zrobione:
+- logowanie do serwera SQL
+- zapis danych logowania i opcji konfiguracyjnych
+- wyświetlanie umówionych wizyt
+
+Do zrobienia do następnego raportu
+- możliwość umówienia nowej wizyty
+- (jeśli starczy czasu) poprawienie wyglądu ekranu wizyt; wyświetlanie szczegółów wizyty po kliknięciu
