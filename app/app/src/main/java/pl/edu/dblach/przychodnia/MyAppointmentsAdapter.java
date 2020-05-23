@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MyAppointmentsAdapter extends RecyclerView.Adapter<MyAppointmentsAdapter.DataObjectHolder>{
@@ -44,12 +45,16 @@ public class MyAppointmentsAdapter extends RecyclerView.Adapter<MyAppointmentsAd
         return dataObjectHolder;
     }
 
-    @Override public void onBindViewHolder(DataObjectHolder holder, int position) {
+    @Override public void onBindViewHolder(DataObjectHolder holder, final int position) {
         holder.description_line1.setText(appointments.get(position).data()+", "+appointments.get(position).godzina_rozpoczecia());
         holder.description_line2.setText(appointments.get(position).lekarz());
         holder.description_line3.setText("");
-        //holder.label.setText(mDataset.get(position).getmText1());
-        //holder.dateTime.setText(mDataset.get(position).getmText2());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener(){
+            @Override public void onClick(View v){
+                Toast.makeText(v.getContext(),"klik="+position,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void addItem(Appointment app,int index){
