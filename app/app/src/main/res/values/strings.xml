@@ -14,6 +14,12 @@
     <string name="menu_appointments_label">Moje wizyty</string>
     <string name="menu_new_appointment_label">Umów wizytę</string>
 
+    <!-- dodawanie wizyty -->
+    <string name="new_appointment_tab_clinic_label">Poradnia</string>
+    <string name="new_appointment_tab_doctor_label">Lekarz</string>
+    <string name="new_appointment_tab_time_label">Godzina</string>
+
+
     <!-- ustawienia -->
     <string name="settings_hostname">Serwer</string>
     <string name="settings_username">Nazwa użytkownika</string>

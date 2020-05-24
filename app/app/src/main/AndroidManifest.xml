@@ -20,7 +20,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Settings" />
-        <activity android:name=".Test_CardViewActivity"/>
     </application>
 
     <!--  Internet Permissions -->
