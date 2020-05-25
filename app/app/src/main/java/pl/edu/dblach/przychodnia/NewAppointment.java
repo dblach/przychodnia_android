@@ -6,6 +6,7 @@ import android.widget.Toast;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import android.view.View;
+import android.app.Fragment;
 
 public class NewAppointment extends AppCompatActivity{
 

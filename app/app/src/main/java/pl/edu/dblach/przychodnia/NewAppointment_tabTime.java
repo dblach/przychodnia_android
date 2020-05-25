@@ -55,8 +55,17 @@ public class NewAppointment_tabTime extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        Toast.makeText(getActivity(),"Created TabTime",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(),"Created TabTime",Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_appointment_tab_time,container,false);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            Toast.makeText(getActivity().getApplicationContext(),"TabTime visible",Toast.LENGTH_SHORT).show();
+        }
+        //Log.i("my_fragment","setUserVisibleHint: "+isVisibleToUser);
     }
 }

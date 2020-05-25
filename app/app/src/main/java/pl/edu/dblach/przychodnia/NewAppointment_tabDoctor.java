@@ -56,7 +56,7 @@ public class NewAppointment_tabDoctor extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        Toast.makeText(getActivity(),"Created TabDoctor",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(),"Created TabDoctor",Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_appointment_tab_doctor,container,false);
     }
