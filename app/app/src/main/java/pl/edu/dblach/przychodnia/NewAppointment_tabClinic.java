@@ -35,8 +35,10 @@ public class NewAppointment_tabClinic extends Fragment{
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<Appointment> appointmentsList=new ArrayList<Appointment>();
+    private ArrayList<Clinic> clinicsList=new ArrayList<Clinic>();
+    private ArrayList<Integer> clinicsIdsList=new ArrayList<Integer>();
     private boolean RecyclerAdapterConnected=false;
+    private Context context;
     public NewAppointment_tabClinic(){
         // Required empty public constructor
     }
@@ -70,26 +72,30 @@ public class NewAppointment_tabClinic extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        View v=inflater.inflate(R.layout.fragment_my_appointments,container);
-        mRecyclerView=(RecyclerView)v.findViewById(R.id.recycler);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager=new LinearLayoutManager(getActivity().getBaseContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter=new MyAppointmentsAdapter(ReceiveData());
-        return inflater.inflate(R.layout.fragment_my_appointments,container,false);
+        return inflater.inflate(R.layout.fragment_new_appointment_tab_clinic,container,false);
     }
 
-    private ArrayList<Appointment> ReceiveData(){
+    @Override
+    public void onViewCreated(View view,Bundle savedInstanceState){
+        super.onViewCreated(view,savedInstanceState);
+        mRecyclerView=(RecyclerView)view.findViewById(R.id.recycler);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager=new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter=new NewAppointment_tabClinic_ClinicAdapter(ReceiveData(),getActivity());
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private ArrayList<Clinic> ReceiveData(){
         final Context ctx=getContext();
         SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-        String sql_hostname=pref.getString("sql_hostname","");
+        final String sql_hostname=pref.getString("sql_hostname","");
         String sql_username=pref.getString("sql_username","");
         String sql_password=pref.getString("sql_password","");
-        String limit=Integer.toString(pref.getInt("myappointments_display_count",0));
 
         OkHttpClient client=new OkHttpClient();
-        String url=sql_hostname+"/get_appointments.php";
-        RequestBody post_data=new FormBody.Builder().add("username",sql_username).add("password",sql_password).add("limit",limit).build();
+        String url=sql_hostname+"/get_clinics.php";
+        RequestBody post_data=new FormBody.Builder().add("username",sql_username).add("password",sql_password).build();
         Request request=new Request.Builder().url(url).post(post_data).build();
         client.newCall(request).enqueue(new Callback(){
             @Override public void onFailure(Call call,IOException e){
@@ -102,22 +108,18 @@ public class NewAppointment_tabClinic extends Fragment{
                         JSONArray array=new JSONArray(r);
                         for(int i=0;i<array.length();i++){
                             JSONObject o=array.getJSONObject(i);
-                            //TODO: przesyłać id wizyty
-                            Appointment a=new Appointment(o.getString("czas_rozpoczecia"),o.getString("czas_zakonczenia"),o.getString("data"),o.getString("nazwisko"),o.getString("imie"));
-                            appointmentsList.add(i,a);
+                            Clinic c=new Clinic(o.getString("id"),o.getString("nazwa"),sql_hostname+"/clinic/"+o.getString("ikona"));
+                            clinicsList.add(i,c);
+                            clinicsIdsList.add(Integer.parseInt(c.id()));
                         }
                     }
                     catch(JSONException e){};
-                    //if(!RecyclerAdapterConnected){
-                    //    mRecyclerView.setAdapter(mAdapter);
-                    //    RecyclerAdapterConnected=true;
-                    //}
                     getActivity().runOnUiThread(new Runnable(){
                         public void run(){
                             if(!RecyclerAdapterConnected){
                                 mRecyclerView.setAdapter(mAdapter);
                                 RecyclerAdapterConnected=true;
-                                //TODO: naprawić:
+                                mAdapter.notifyDataSetChanged();
                                 TextView loading=(TextView)getView().findViewById(R.id.loading);
                                 loading.setVisibility(View.INVISIBLE);
                             }
@@ -127,6 +129,6 @@ public class NewAppointment_tabClinic extends Fragment{
                 }
             }
         });
-        return appointmentsList;
+        return clinicsList;
     }
 }

@@ -70,13 +70,25 @@ public class MyAppointments extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        View v=inflater.inflate(R.layout.fragment_my_appointments,container);
-        mRecyclerView=(RecyclerView)v.findViewById(R.id.recycler);
+        //View v=inflater.inflate(R.layout.fragment_my_appointments,container);
+        //mRecyclerView=(RecyclerView)v.findViewById(R.id.recycler);
+        //mRecyclerView.setHasFixedSize(true);
+        //mLayoutManager=new LinearLayoutManager(getActivity());
+        //mRecyclerView.setLayoutManager(mLayoutManager);
+        //mAdapter=new MyAppointmentsAdapter(ReceiveData());
+        //return super.onCreateView(inflater,container,savedInstanceState);
+        return inflater.inflate(R.layout.fragment_my_appointments,container,false);
+    }
+
+    @Override
+    public void onViewCreated(View view,Bundle savedInstanceState){
+        super.onViewCreated(view,savedInstanceState);
+        mRecyclerView=(RecyclerView)view.findViewById(R.id.recycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager=new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter=new MyAppointmentsAdapter(ReceiveData());
-        return inflater.inflate(R.layout.fragment_my_appointments,container,false);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private ArrayList<Appointment> ReceiveData(){
@@ -113,7 +125,6 @@ public class MyAppointments extends Fragment{
                             if(!RecyclerAdapterConnected){
                                 mRecyclerView.setAdapter(mAdapter);
                                 RecyclerAdapterConnected=true;
-                                //TODO: naprawić:
                                 TextView loading=(TextView)getView().findViewById(R.id.loading);
                                 loading.setVisibility(View.INVISIBLE);
                             }

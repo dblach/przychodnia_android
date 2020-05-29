@@ -14,10 +14,10 @@ public class NewAppointment extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_appointment);
 
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.tablayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
+        TabLayout tabLayout=(TabLayout)findViewById(R.id.tablayout);
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.new_appointment_tab_clinic_label)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.new_appointment_tab_doctor_label)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.new_appointment_tab_time_label)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
