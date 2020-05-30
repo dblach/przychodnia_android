@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 30 Maj 2020, 14:00
+-- Czas generowania: 31 Maj 2020, 00:21
 -- Wersja serwera: 10.4.11-MariaDB
 -- Wersja PHP: 7.4.5
 
@@ -24,6 +24,31 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Struktura tabeli dla tabeli `godziny_przyjec`
+--
+
+CREATE TABLE `godziny_przyjec` (
+  `id_przyjecia` int(11) NOT NULL,
+  `id_lekarza` int(11) NOT NULL,
+  `specjalizacja` int(11) NOT NULL,
+  `dzien_tygodnia` int(11) NOT NULL,
+  `godzina_rozpoczecia` time NOT NULL,
+  `godzina_zakonczenia` time NOT NULL,
+  `pomieszczenie` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `godziny_przyjec`
+--
+
+INSERT INTO `godziny_przyjec` (`id_przyjecia`, `id_lekarza`, `specjalizacja`, `dzien_tygodnia`, `godzina_rozpoczecia`, `godzina_zakonczenia`, `pomieszczenie`) VALUES
+(1, 2, 1, 1, '10:00:00', '12:00:00', '3'),
+(2, 2, 1, 3, '12:00:00', '14:00:00', '3'),
+(3, 1, 1, 2, '09:00:00', '10:00:00', '2');
+
+-- --------------------------------------------------------
+
+--
 -- Struktura tabeli dla tabeli `lekarze`
 --
 
@@ -33,18 +58,18 @@ CREATE TABLE `lekarze` (
   `imie` text COLLATE utf8_polish_ci NOT NULL,
   `specjalizacja` int(11) NOT NULL,
   `uprawnienia` int(11) NOT NULL,
-  `nazwa` text COLLATE utf8_polish_ci NOT NULL
+  `nazwa` text COLLATE utf8_polish_ci NOT NULL,
+  `zdjecie` varchar(30) COLLATE utf8_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
 -- Zrzut danych tabeli `lekarze`
 --
 
-INSERT INTO `lekarze` (`id`, `nazwisko`, `imie`, `specjalizacja`, `uprawnienia`, `nazwa`) VALUES
-(1, 'Wilczur', 'Rafał', 1, 2, 'rwilczur'),
-(2, 'House', 'Gregory', 1, 1, 'ghouse'),
-(3, 'Kotek', 'Zdzisław', 2, 1, 'zkotek'),
-(4, 'Test', 'TestowyxD', 2, 0, '');
+INSERT INTO `lekarze` (`id`, `nazwisko`, `imie`, `specjalizacja`, `uprawnienia`, `nazwa`, `zdjecie`) VALUES
+(1, 'Wilczur', 'Rafał', 1, 2, 'rwilczur', 'rwilczur.jpg'),
+(2, 'House', 'Gregory', 1, 1, 'ghouse', 'ghouse.jpg'),
+(3, 'Kotek', 'Zdzisław', 2, 1, 'zkotek', 'zkotek.jpg');
 
 -- --------------------------------------------------------
 
@@ -126,6 +151,14 @@ INSERT INTO `wizyty` (`id`, `pacjent_id`, `lekarz_id`, `data`, `czas_rozpoczecia
 --
 
 --
+-- Indeksy dla tabeli `godziny_przyjec`
+--
+ALTER TABLE `godziny_przyjec`
+  ADD PRIMARY KEY (`id_przyjecia`),
+  ADD KEY `id_lekarza` (`id_lekarza`),
+  ADD KEY `specjalizacja` (`specjalizacja`);
+
+--
 -- Indeksy dla tabeli `lekarze`
 --
 ALTER TABLE `lekarze`
@@ -154,6 +187,12 @@ ALTER TABLE `wizyty`
 --
 
 --
+-- AUTO_INCREMENT dla tabeli `godziny_przyjec`
+--
+ALTER TABLE `godziny_przyjec`
+  MODIFY `id_przyjecia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT dla tabeli `lekarze`
 --
 ALTER TABLE `lekarze`
@@ -176,6 +215,17 @@ ALTER TABLE `specjalizacje`
 --
 ALTER TABLE `wizyty`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- Ograniczenia dla zrzutów tabel
+--
+
+--
+-- Ograniczenia dla tabeli `godziny_przyjec`
+--
+ALTER TABLE `godziny_przyjec`
+  ADD CONSTRAINT `godziny_przyjec_ibfk_1` FOREIGN KEY (`id_lekarza`) REFERENCES `lekarze` (`id`),
+  ADD CONSTRAINT `godziny_przyjec_ibfk_2` FOREIGN KEY (`specjalizacja`) REFERENCES `specjalizacje` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
