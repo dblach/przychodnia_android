@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 20 Maj 2020, 20:44
+-- Czas generowania: 30 Maj 2020, 14:00
 -- Wersja serwera: 10.4.11-MariaDB
 -- Wersja PHP: 7.4.5
 
@@ -78,17 +78,18 @@ INSERT INTO `pacjenci` (`id`, `imie`, `nazwisko`, `data_zapisania`, `notatki`, `
 
 CREATE TABLE `specjalizacje` (
   `id` int(11) NOT NULL,
-  `nazwa` text COLLATE utf8_polish_ci NOT NULL
+  `nazwa` varchar(30) COLLATE utf8_polish_ci NOT NULL,
+  `ikona` varchar(30) COLLATE utf8_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
 -- Zrzut danych tabeli `specjalizacje`
 --
 
-INSERT INTO `specjalizacje` (`id`, `nazwa`) VALUES
-(1, 'Choroby wewnętrzne'),
-(2, 'Laryngologia'),
-(3, 'Bla2');
+INSERT INTO `specjalizacje` (`id`, `nazwa`, `ikona`) VALUES
+(1, 'Choroby wewnętrzne', 'internistyczna.png'),
+(2, 'Laryngologia', 'laryngologiczna.png'),
+(4, 'Stomatologia', 'stomatologiczna.jpg');
 
 -- --------------------------------------------------------
 
@@ -168,7 +169,7 @@ ALTER TABLE `pacjenci`
 -- AUTO_INCREMENT dla tabeli `specjalizacje`
 --
 ALTER TABLE `specjalizacje`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT dla tabeli `wizyty`
