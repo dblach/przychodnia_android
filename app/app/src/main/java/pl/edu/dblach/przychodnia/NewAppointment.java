@@ -9,7 +9,6 @@ import android.view.View;
 import android.app.Fragment;
 
 public class NewAppointment extends AppCompatActivity{
-
     @Override protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_appointment);
@@ -20,7 +19,7 @@ public class NewAppointment extends AppCompatActivity{
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.new_appointment_tab_time_label)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
+        final ViewPager viewPager=(ViewPager)findViewById(R.id.pager);
         final NewAppointment_PagerAdapter adapter = new NewAppointment_PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

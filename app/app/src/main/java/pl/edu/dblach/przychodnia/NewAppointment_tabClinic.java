@@ -36,7 +36,7 @@ public class NewAppointment_tabClinic extends Fragment{
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Clinic> clinicsList=new ArrayList<Clinic>();
-    private ArrayList<Integer> clinicsIdsList=new ArrayList<Integer>();
+    //private ArrayList<Integer> clinicsIdsList=new ArrayList<Integer>();
     private boolean RecyclerAdapterConnected=false;
     private Context context;
     public NewAppointment_tabClinic(){
@@ -51,7 +51,6 @@ public class NewAppointment_tabClinic extends Fragment{
      * @param param2 Parameter 2.
      * @return A new instance of fragment Test_CardView_Fragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static NewAppointment_tabClinic newInstance(String param1,String param2){
         NewAppointment_tabClinic fragment=new NewAppointment_tabClinic();
         Bundle args=new Bundle();
@@ -110,7 +109,7 @@ public class NewAppointment_tabClinic extends Fragment{
                             JSONObject o=array.getJSONObject(i);
                             Clinic c=new Clinic(o.getString("id"),o.getString("nazwa"),sql_hostname+"/clinic/"+o.getString("ikona"));
                             clinicsList.add(i,c);
-                            clinicsIdsList.add(Integer.parseInt(c.id()));
+                            //clinicsIdsList.add(Integer.parseInt(c.id()));
                         }
                     }
                     catch(JSONException e){};

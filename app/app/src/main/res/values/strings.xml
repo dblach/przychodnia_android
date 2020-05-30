@@ -34,6 +34,15 @@
     <string name="error_no_login_data_message">Brak danych logowania - aplikacja nie będzie działać poprawnie, dopóki nie wprowadzisz ich w ustawieniach.</string>
     <string name="error_no_login_data_open_settings">Otwórz ustawienia</string>
 
+    <!-- dni tygodnia -->
+    <string name="weekday_monday">Poniedziałek</string>
+    <string name="weekday_tuesday">Wtorek</string>
+    <string name="weekday_wednesday">Środa</string>
+    <string name="weekday_thursday">Czwartek</string>
+    <string name="weekday_friday">Piątek</string>
+    <string name="weekday_saturday">Sobota</string>
+    <string name="weekday_sunday">Niedziela</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Ładowanie...</string>
 </resources>
