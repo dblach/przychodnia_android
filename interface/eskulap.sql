@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 31 Maj 2020, 00:21
+-- Czas generowania: 31 Maj 2020, 23:03
 -- Wersja serwera: 10.4.11-MariaDB
 -- Wersja PHP: 7.4.5
 
@@ -44,7 +44,8 @@ CREATE TABLE `godziny_przyjec` (
 INSERT INTO `godziny_przyjec` (`id_przyjecia`, `id_lekarza`, `specjalizacja`, `dzien_tygodnia`, `godzina_rozpoczecia`, `godzina_zakonczenia`, `pomieszczenie`) VALUES
 (1, 2, 1, 1, '10:00:00', '12:00:00', '3'),
 (2, 2, 1, 3, '12:00:00', '14:00:00', '3'),
-(3, 1, 1, 2, '09:00:00', '10:00:00', '2');
+(3, 1, 1, 2, '09:00:00', '10:00:00', '2'),
+(4, 1, 1, 2, '14:00:00', '16:00:00', '2');
 
 -- --------------------------------------------------------
 
@@ -144,7 +145,8 @@ INSERT INTO `wizyty` (`id`, `pacjent_id`, `lekarz_id`, `data`, `czas_rozpoczecia
 (9, 1, 2, '2019-01-19', '00:00:00', '01:00:00', '', 0),
 (10, 1, 2, '2019-01-19', '03:00:00', '05:00:00', 'fgsefg', 0),
 (11, 5, 2, '2019-01-23', '09:00:00', '10:00:00', '', 0),
-(12, 5, 1, '2020-05-21', '16:00:00', '16:30:00', '', 0);
+(12, 5, 1, '2020-05-21', '16:00:00', '16:30:00', '', 0),
+(19, 5, 1, '2020-06-02', '09:30:00', '10:00:00', '', 0);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -180,7 +182,9 @@ ALTER TABLE `specjalizacje`
 -- Indeksy dla tabeli `wizyty`
 --
 ALTER TABLE `wizyty`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pacjent_id` (`pacjent_id`),
+  ADD KEY `lekarz_id` (`lekarz_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -190,7 +194,7 @@ ALTER TABLE `wizyty`
 -- AUTO_INCREMENT dla tabeli `godziny_przyjec`
 --
 ALTER TABLE `godziny_przyjec`
-  MODIFY `id_przyjecia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_przyjecia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT dla tabeli `lekarze`
@@ -214,7 +218,7 @@ ALTER TABLE `specjalizacje`
 -- AUTO_INCREMENT dla tabeli `wizyty`
 --
 ALTER TABLE `wizyty`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Ograniczenia dla zrzutów tabel
@@ -226,6 +230,13 @@ ALTER TABLE `wizyty`
 ALTER TABLE `godziny_przyjec`
   ADD CONSTRAINT `godziny_przyjec_ibfk_1` FOREIGN KEY (`id_lekarza`) REFERENCES `lekarze` (`id`),
   ADD CONSTRAINT `godziny_przyjec_ibfk_2` FOREIGN KEY (`specjalizacja`) REFERENCES `specjalizacje` (`id`);
+
+--
+-- Ograniczenia dla tabeli `wizyty`
+--
+ALTER TABLE `wizyty`
+  ADD CONSTRAINT `wizyty_ibfk_1` FOREIGN KEY (`lekarz_id`) REFERENCES `lekarze` (`id`),
+  ADD CONSTRAINT `wizyty_ibfk_2` FOREIGN KEY (`pacjent_id`) REFERENCES `pacjenci` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
