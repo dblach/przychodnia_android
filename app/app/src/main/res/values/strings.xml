@@ -19,6 +19,8 @@
     <string name="new_appointment_tab_doctor_label">Lekarz</string>
     <string name="new_appointment_tab_time_label">Godzina</string>
 
+    <string name="new_appointment_tab_time_btn_previousday">&lt;</string>
+    <string name="new_appointment_tab_time_btn_nextday">&gt;</string>
 
     <!-- ustawienia -->
     <string name="settings_hostname">Serwer</string>

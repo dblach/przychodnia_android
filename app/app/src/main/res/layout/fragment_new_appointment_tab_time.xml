@@ -6,9 +6,37 @@
     tools:context=".NewAppointment_tabTime">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="TabTime" />
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnPreviousDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/new_appointment_tab_time_btn_previousday" />
+
+            <Button
+                android:id="@+id/btnDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Button" />
+
+            <Button
+                android:id="@+id/btnNextDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/new_appointment_tab_time_btn_nextday" />
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>

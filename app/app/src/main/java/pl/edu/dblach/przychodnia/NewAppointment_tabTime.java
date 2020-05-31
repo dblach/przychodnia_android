@@ -6,35 +6,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.widget.Button;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import android.widget.DatePicker;
+import android.app.DatePickerDialog;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link NewAppointment_tabTime#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class NewAppointment_tabTime extends Fragment{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1="param1";
     private static final String ARG_PARAM2="param2";
+    private Date date=new Date();
+    private DateFormat df=new SimpleDateFormat("dd.MM.yyyy");;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     public NewAppointment_tabTime(){
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NewAppointment_tabTime.
-     */
-    // TODO: Rename and change types and number of parameters
     public static NewAppointment_tabTime newInstance(String param1,String param2){
         NewAppointment_tabTime fragment=new NewAppointment_tabTime();
         Bundle args=new Bundle();
@@ -55,17 +47,80 @@ public class NewAppointment_tabTime extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        //Toast.makeText(getActivity(),"Created TabTime",Toast.LENGTH_SHORT).show();
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_new_appointment_tab_time,container,false);
+        View v=inflater.inflate(R.layout.fragment_new_appointment_tab_time,container,false);
+
+        Button btnPreviousDay=(Button)v.findViewById(R.id.btnPreviousDay);
+        Button btnNextDay=(Button)v.findViewById(R.id.btnNextDay);
+        Button btnDate=(Button)v.findViewById(R.id.btnDate);
+
+        btnPreviousDay.setOnClickListener(new View.OnClickListener(){@Override public void onClick(View v){
+            date_prevDay();
+        }});
+        btnNextDay.setOnClickListener(new View.OnClickListener(){@Override public void onClick(View v){
+            date_nextDay();
+        }});
+        btnDate.setOnClickListener(new View.OnClickListener(){@Override public void onClick(View v){
+            date_openPicker();
+        }});
+
+        return v;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
+            updateDate();
+
+
             Toast.makeText(getActivity().getApplicationContext(),"TabTime visible",Toast.LENGTH_SHORT).show();
         }
         //Log.i("my_fragment","setUserVisibleHint: "+isVisibleToUser);
+    }
+
+    public void updateDate(){
+        getActivity().runOnUiThread(new Runnable(){
+            public void run(){
+                Button btnDate=(Button)getView().findViewById(R.id.btnDate);
+                btnDate.setText(df.format(date));
+            }
+        });
+    }
+
+    public void date_prevDay(){
+        Calendar c=Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DAY_OF_MONTH,-1);
+        date=c.getTime();
+        updateDate();
+    }
+
+    public void date_nextDay(){
+        Calendar c=Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DAY_OF_MONTH,1);
+        date=c.getTime();
+        updateDate();
+    }
+
+    public void date_openPicker(){
+        getActivity().runOnUiThread(new Runnable(){
+            public void run(){
+                final Calendar c=Calendar.getInstance();
+                c.setTime(date);
+                int y=c.get(Calendar.YEAR);
+                int m=c.get(Calendar.MONTH);
+                int d=c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog picker=new DatePickerDialog(getActivity(),new DatePickerDialog.OnDateSetListener(){@Override public void onDateSet(DatePicker v,int y,int m,int d){
+                    c.set(Calendar.YEAR,y);
+                    c.set(Calendar.MONTH,m);
+                    c.set(Calendar.DAY_OF_MONTH,d);
+                    date=c.getTime();
+                    updateDate();
+                    //eText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                }},y,m,d);
+                picker.show();
+            }
+        });
     }
 }

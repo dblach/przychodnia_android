@@ -57,10 +57,10 @@ public class NewAppointment_tabDoctor_DoctorAdapter extends RecyclerView.Adapter
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View v){
                 Toast.makeText(v.getContext(),"klik="+position,Toast.LENGTH_SHORT).show();
-                //SharedPreferences pref=context.getSharedPreferences(context.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-                //SharedPreferences.Editor edit=pref.edit();
-                //edit.putString("NewAppointment_clinic_id",clinics.get(position).id());
-                //edit.commit();
+                SharedPreferences pref=context.getSharedPreferences(context.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit=pref.edit();
+                edit.putString("NewAppointment_clinic_doctor",doctors.get(position).id());
+                edit.commit();
             }
         });
     }
