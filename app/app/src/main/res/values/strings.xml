@@ -18,10 +18,11 @@
     <string name="new_appointment_tab_clinic_label">Poradnia</string>
     <string name="new_appointment_tab_doctor_label">Lekarz</string>
     <string name="new_appointment_tab_time_label">Godzina</string>
-
     <string name="new_appointment_tab_time_btn_previousday">&lt;</string>
     <string name="new_appointment_tab_time_btn_nextday">&gt;</string>
     <string name="new_appointment_tab_time_appointment_label">Zarezerwowane</string>
+    <string name="new_appointment_tab_time_no_admissions">W tym dniu wybrany lekarz nie przyjmuje.\n\nNajbliższa możliwa data: %nd %nh</string>
+
     <!-- ustawienia -->
     <string name="settings_hostname">Serwer</string>
     <string name="settings_username">Nazwa użytkownika</string>
@@ -47,4 +48,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Ładowanie...</string>
+    <string name="loading">Ładowanie...</string>
 </resources>

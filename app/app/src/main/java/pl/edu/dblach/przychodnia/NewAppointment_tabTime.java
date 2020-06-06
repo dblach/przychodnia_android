@@ -54,6 +54,9 @@ public class NewAppointment_tabTime extends Fragment{
     private int day_end;
     private int h;
     private int m;
+    private String next_admission_day="";
+    private String next_admission_hour="";
+    //private String[] weekdays=new String[8];
     private String mParam1;
     private String mParam2;
 
@@ -105,6 +108,15 @@ public class NewAppointment_tabTime extends Fragment{
             save();
         }});
 
+        /*weekdays[0]="";
+        weekdays[1]=getString(R.string.weekday_monday);
+        weekdays[2]=getString(R.string.weekday_tuesday);
+        weekdays[3]=getString(R.string.weekday_wednesday);
+        weekdays[4]=getString(R.string.weekday_thursday);
+        weekdays[5]=getString(R.string.weekday_friday);
+        weekdays[6]=getString(R.string.weekday_saturday);
+        weekdays[7]=getString(R.string.weekday_sunday);
+*/
         return v;
     }
 
@@ -117,6 +129,7 @@ public class NewAppointment_tabTime extends Fragment{
     }
 
     public void updateDate(){
+        showLoading();
         final Context ctx=getContext();
         SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
         final String sql_hostname=pref.getString("sql_hostname","");
@@ -139,10 +152,6 @@ public class NewAppointment_tabTime extends Fragment{
                 if(response.isSuccessful()){
                     final String r=response.body().string();
                     try{
-                        /*getActivity().runOnUiThread(new Runnable(){public void run(){
-                            TextView response=(TextView)getView().findViewById(R.id.response);
-                            response.setText(r);
-                        }});*/
                         terminy=new ArrayList<>();
                         JSONArray array=new JSONArray(r);
                         for(int i=0;i<array.length();i++){
@@ -187,7 +196,15 @@ public class NewAppointment_tabTime extends Fragment{
                                 if(!o.getString("d").equals("null")) day_end=Integer.parseInt(o.getString("d").substring(0,2))+1;
                                 else day_end=1;
                             }
+                            //if(day_start==0&&day_end==1){
+                                //next_admission_day=o.getString("next_admission_day");
+                                //next_admission_day=weekdays[Integer.parseInt(o.getString("next_admission_day"))];
+                                //next_admission_hour=o.getString("next_admission_hour");
+                            //}
                         }
+
+                        check_for_no_admissions();
+
                         getActivity().runOnUiThread(new Runnable(){
                             public void run(){
                                 Button btnDate=(Button)getView().findViewById(R.id.btnDate);
@@ -201,6 +218,7 @@ public class NewAppointment_tabTime extends Fragment{
                 }
             }
         });
+        hideLoading();
     }
 
     public void date_prevDay(){
@@ -247,10 +265,13 @@ public class NewAppointment_tabTime extends Fragment{
         TimePickerDialog timePickerDialog=new TimePickerDialog(getActivity(),
                 new TimePickerDialog.OnTimeSetListener(){
                     @Override public void onTimeSet(TimePicker view, int h,int m){
-                        //Toast.makeText(getActivity(),Integer.toString(h),Toast.LENGTH_SHORT).show();
                         c.set(Calendar.HOUR_OF_DAY,h);
                         c.set(Calendar.MINUTE,m);
                         time=c.getTime();
+                        getActivity().runOnUiThread(new Runnable(){public void run(){
+                            Button btn=getActivity().findViewById(R.id.btnSelectTime);
+                            btn.setText(new SimpleDateFormat("HH:mm").format(time));
+                        }});
                     }
                 },h,m,true);
         timePickerDialog.show();
@@ -299,5 +320,39 @@ public class NewAppointment_tabTime extends Fragment{
                 }
             }
         });
+    }
+
+    public void showLoading(){
+        getActivity().runOnUiThread(new Runnable(){public void run(){
+            TextView t=(TextView)getView().findViewById(R.id.response);
+            t.setText(getResources().getString(R.string.loading));
+            t.setVisibility(View.VISIBLE);
+        }});
+    }
+
+    public void hideLoading(){
+        getActivity().runOnUiThread(new Runnable(){public void run(){
+            TextView t=(TextView)getView().findViewById(R.id.response);
+            t.setVisibility(View.GONE);
+        }});
+    }
+
+    public void check_for_no_admissions(){
+        final TextView t=(TextView)getView().findViewById(R.id.response);
+        final CalendarDayView c=(CalendarDayView)getView().findViewById(R.id.calendar);
+        if(day_start==0&&day_end==1){
+            getActivity().runOnUiThread(new Runnable(){public void run(){
+                t.setText(getResources().getString(R.string.new_appointment_tab_time_no_admissions).replace("%nd",next_admission_day).replace("%nh",next_admission_hour));
+                t.setVisibility(View.VISIBLE);
+                c.setVisibility(View.GONE);
+            }});
+        }
+        else{
+            getActivity().runOnUiThread(new Runnable(){public void run(){
+                t.setText("");
+                t.setVisibility(View.GONE);
+                c.setVisibility(View.VISIBLE);
+            }});
+        }
     }
 }
