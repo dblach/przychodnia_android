@@ -11,11 +11,15 @@ import android.content.Context;
 import java.util.ArrayList;
 import com.squareup.picasso.Picasso;
 import android.content.SharedPreferences;
+import android.widget.LinearLayout;
+import android.graphics.Color;
 
 public class NewAppointment_tabDoctor_DoctorAdapter extends RecyclerView.Adapter<NewAppointment_tabDoctor_DoctorAdapter.DataObjectHolder>{
     private ArrayList<Doctor> doctors;
     private static MyClickListener myClickListener;
     private Context context;
+    private int lastPosition = -1;
+    int row_index = -1;
 
     public NewAppointment_tabDoctor_DoctorAdapter(ArrayList<Doctor> myDataset,Context context){
         doctors=myDataset;
@@ -25,13 +29,15 @@ public class NewAppointment_tabDoctor_DoctorAdapter extends RecyclerView.Adapter
     public static class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name;
         TextView admissions;
-        //ImageView photo;
+        ImageView photo;
+        LinearLayout linearLayout;
 
         public DataObjectHolder(View itemView){
             super(itemView);
             name=(TextView)itemView.findViewById(R.id.name);
             admissions=(TextView)itemView.findViewById(R.id.admissions);
-            //photo=(ImageView)itemView.findViewById(R.id.image);
+            photo=(ImageView)itemView.findViewById(R.id.image);
+            linearLayout=(LinearLayout)itemView.findViewById(R.id.linearlayout);
         }
 
         @Override public void onClick(View v) {
@@ -53,7 +59,7 @@ public class NewAppointment_tabDoctor_DoctorAdapter extends RecyclerView.Adapter
     @Override public void onBindViewHolder(DataObjectHolder holder, final int position) {
         holder.name.setText(doctors.get(position).nazwisko()+" "+doctors.get(position).imie());
         holder.admissions.setText(doctors.get(position).godziny_przyjec());
-        //Picasso.with(context).load(doctors.get(position).zdjecie()).into(holder.photo);
+        Picasso.with(context).load(doctors.get(position).zdjecie()).into(holder.photo);
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View v){
                 Toast.makeText(v.getContext(),"klik="+position,Toast.LENGTH_SHORT).show();
@@ -63,6 +69,16 @@ public class NewAppointment_tabDoctor_DoctorAdapter extends RecyclerView.Adapter
                 edit.commit();
             }
         });
+
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View view){
+                row_index=position;
+                notifyDataSetChanged();
+            }
+        });
+
+        if(row_index==position) holder.linearLayout.setBackgroundColor(Color.parseColor(context.getResources().getString(R.color.selected)));
+        else holder.linearLayout.setBackgroundColor(Color.parseColor(context.getResources().getString(R.color.not_selected)));
     }
 
     public void addItem(Doctor d,int index){

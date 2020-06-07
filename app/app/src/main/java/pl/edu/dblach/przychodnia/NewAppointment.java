@@ -2,11 +2,12 @@ package pl.edu.dblach.przychodnia;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import android.view.View;
 import android.app.Fragment;
+import android.content.SharedPreferences;
+import android.content.Context;
 
 public class NewAppointment extends AppCompatActivity{
     private ViewPager viewPager;
@@ -42,5 +43,10 @@ public class NewAppointment extends AppCompatActivity{
 
             }
         });
+
+        SharedPreferences pref=this.getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+        pref.edit().putString("NewAppointment_clinic_id","");
+        pref.edit().putString("NewAppointment_doctor_id","");
+        pref.edit().commit();
     }
 }

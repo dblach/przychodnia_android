@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.SharedPreferences;
-//import android.widget.Toast;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.io.IOException;
@@ -36,21 +35,11 @@ public class NewAppointment_tabClinic extends Fragment{
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Clinic> clinicsList=new ArrayList<Clinic>();
-    //private ArrayList<Integer> clinicsIdsList=new ArrayList<Integer>();
     private boolean RecyclerAdapterConnected=false;
     private Context context;
     public NewAppointment_tabClinic(){
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Test_CardView_Fragment.
-     */
     public static NewAppointment_tabClinic newInstance(String param1,String param2){
         NewAppointment_tabClinic fragment=new NewAppointment_tabClinic();
         Bundle args=new Bundle();
@@ -109,7 +98,6 @@ public class NewAppointment_tabClinic extends Fragment{
                             JSONObject o=array.getJSONObject(i);
                             Clinic c=new Clinic(o.getString("id"),o.getString("nazwa"),sql_hostname+"/clinic/"+o.getString("ikona"));
                             clinicsList.add(i,c);
-                            //clinicsIdsList.add(Integer.parseInt(c.id()));
                         }
                     }
                     catch(JSONException e){};
