@@ -48,7 +48,6 @@
     <string name="weekday_saturday">Sobota</string>
     <string name="weekday_sunday">Niedziela</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Ładowanie...</string>
     <string name="loading">Ładowanie...</string>
 </resources>

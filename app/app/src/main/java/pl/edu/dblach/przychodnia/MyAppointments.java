@@ -37,19 +37,9 @@ public class MyAppointments extends Fragment{
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Appointment> appointmentsList=new ArrayList<Appointment>();
     private boolean RecyclerAdapterConnected=false;
-    public MyAppointments(){
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Test_CardView_Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
+    public MyAppointments(){}
+
     public static MyAppointments newInstance(String param1,String param2){
         MyAppointments fragment=new MyAppointments();
         Bundle args=new Bundle();
