@@ -41,20 +41,9 @@ public class NewAppointment_tabDoctor extends Fragment{
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    //private Context context;
 
-    public NewAppointment_tabDoctor(){
-        // Required empty public constructor
-    }
+    public NewAppointment_tabDoctor(){}
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NewAppointment_tabDoctor.
-     */
     public static NewAppointment_tabDoctor newInstance(String param1,String param2){
         NewAppointment_tabDoctor fragment=new NewAppointment_tabDoctor();
         Bundle args=new Bundle();
@@ -111,15 +100,20 @@ public class NewAppointment_tabDoctor extends Fragment{
         final String sql_hostname=pref.getString("sql_hostname","");
         String sql_username=pref.getString("sql_username","");
         String sql_password=pref.getString("sql_password","");
-        String app_clinic_id=pref.getString("NewAppointment_clinic_id","");
+        final String app_clinic_id=pref.getString("NewAppointment_clinic_id","");
+        final TextView loading=(TextView)getView().findViewById(R.id.loading);
 
-        if(app_clinic_id!=""){
-            getActivity().runOnUiThread(new Runnable(){
-                public void run(){
-                    TextView loading=(TextView)getView().findViewById(R.id.loading);
-                    loading.setVisibility(View.VISIBLE);
-                }
-            });
+        if(app_clinic_id.equals("")){
+            getActivity().runOnUiThread(new Runnable(){public void run(){
+                loading.setText(getResources().getString(R.string.new_appointment_tab_doctor_error_select_clinic_first));
+                loading.setVisibility(View.VISIBLE);
+            }});
+        }
+        else{
+            getActivity().runOnUiThread(new Runnable(){public void run(){
+                loading.setText(getResources().getString(R.string.loading));
+                loading.setVisibility(View.VISIBLE);
+            }});
             doctorsList.clear();
             mAdapter.notifyDataSetChanged();
 

@@ -60,22 +60,15 @@ public class NewAppointment_tabDoctor_DoctorAdapter extends RecyclerView.Adapter
         holder.name.setText(doctors.get(position).nazwisko()+" "+doctors.get(position).imie());
         holder.admissions.setText(doctors.get(position).godziny_przyjec());
         Picasso.with(context).load(doctors.get(position).zdjecie()).into(holder.photo);
-        holder.itemView.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View v){
-                Toast.makeText(v.getContext(),"klik="+position,Toast.LENGTH_SHORT).show();
-                SharedPreferences pref=context.getSharedPreferences(context.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit=pref.edit();
-                edit.putString("NewAppointment_doctor_id",doctors.get(position).id());
-                edit.commit();
-            }
-        });
 
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view){
-                row_index=position;
-                notifyDataSetChanged();
-            }
-        });
+        holder.linearLayout.setOnClickListener(new View.OnClickListener(){@Override public void onClick(View view){
+            SharedPreferences pref=context.getSharedPreferences(context.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit=pref.edit();
+            edit.putString("NewAppointment_doctor_id",doctors.get(position).id());
+            edit.commit();
+            row_index=position;
+            notifyDataSetChanged();
+        }});
 
         if(row_index==position) holder.linearLayout.setBackgroundColor(Color.parseColor(context.getResources().getString(R.color.selected)));
         else holder.linearLayout.setBackgroundColor(Color.parseColor(context.getResources().getString(R.color.not_selected)));

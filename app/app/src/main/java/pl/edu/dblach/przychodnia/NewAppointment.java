@@ -45,8 +45,7 @@ public class NewAppointment extends AppCompatActivity{
         });
 
         SharedPreferences pref=this.getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-        pref.edit().putString("NewAppointment_clinic_id","");
-        pref.edit().putString("NewAppointment_doctor_id","");
-        pref.edit().commit();
+        pref.edit().putString("NewAppointment_clinic_id","").commit();
+        pref.edit().putString("NewAppointment_doctor_id","").commit();
     }
 }

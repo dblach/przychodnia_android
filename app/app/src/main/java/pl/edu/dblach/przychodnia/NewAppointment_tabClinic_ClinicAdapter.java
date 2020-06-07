@@ -57,21 +57,14 @@ public class NewAppointment_tabClinic_ClinicAdapter extends RecyclerView.Adapter
     @Override public void onBindViewHolder(final DataObjectHolder holder, final int position) {
         holder.name.setText(clinics.get(position).nazwa());
         Picasso.with(context).load(clinics.get(position).ikona()).into(holder.icon);
-        holder.itemView.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View v){
-                SharedPreferences pref=context.getSharedPreferences(context.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit=pref.edit();
-                edit.putString("NewAppointment_clinic_id",clinics.get(position).id());
-                edit.commit();
-            }
-        });
-
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view){
-                row_index=position;
-                notifyDataSetChanged();
-            }
-        });
+        holder.linearLayout.setOnClickListener(new View.OnClickListener(){@Override public void onClick(View view){
+            row_index=position;
+            notifyDataSetChanged();
+            SharedPreferences pref=context.getSharedPreferences(context.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit=pref.edit();
+            edit.putString("NewAppointment_clinic_id",clinics.get(position).id());
+            edit.commit();
+        }});
 
         if(row_index==position) holder.linearLayout.setBackgroundColor(Color.parseColor(context.getResources().getString(R.color.selected)));
         else holder.linearLayout.setBackgroundColor(Color.parseColor(context.getResources().getString(R.color.not_selected)));

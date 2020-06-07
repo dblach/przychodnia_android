@@ -129,96 +129,108 @@ public class NewAppointment_tabTime extends Fragment{
     }
 
     public void updateDate(){
-        showLoading();
         final Context ctx=getContext();
         SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
         final String sql_hostname=pref.getString("sql_hostname","");
         String sql_username=pref.getString("sql_username","");
         String sql_password=pref.getString("sql_password","");
-        String new_appointment_doctor_id=pref.getString("NewAppointment_doctor_id","");
+        final String new_appointment_doctor_id=pref.getString("NewAppointment_doctor_id","");
 
-        OkHttpClient client=new OkHttpClient();
-        String url=sql_hostname+"/get_doctor_timetable.php";
-        RequestBody post_data=new FormBody.Builder().add("username",sql_username).add("password",sql_password).add("doctor_id",new_appointment_doctor_id).add("date",new SimpleDateFormat("yyyy-MM-dd").format(date)).build();
-        Request request=new Request.Builder().url(url).post(post_data).build();
-        client.newCall(request).enqueue(new Callback(){
-            @Override
-            public void onFailure(Call call,IOException e){
-                e.printStackTrace();
-            }
+        if(new_appointment_doctor_id.equals("")){
+            showErrorNoDoctorSelected();
+        }
+        else{
+            showLoading();
 
-            @Override
-            public void onResponse(Call call,Response response) throws IOException{
-                if(response.isSuccessful()){
-                    final String r=response.body().string();
-                    try{
-                        terminy=new ArrayList<>();
-                        JSONArray array=new JSONArray(r);
-                        for(int i=0;i<array.length();i++){
-                            JSONObject o=array.getJSONObject(i);
-                            if(o.getString("type").equals("admission")){
-                                String tp=o.getString("godzina_rozpoczecia");
-                                String tk=o.getString("godzina_zakonczenia");
-                                int gp=Integer.parseInt(tp.substring(0,2));
-                                int mp=Integer.parseInt(tp.substring(3,5));
-                                int gk=Integer.parseInt(tk.substring(0,2));
-                                int mk=Integer.parseInt(tk.substring(3,5));
-                                Calendar p=Calendar.getInstance();
-                                p.set(Calendar.HOUR_OF_DAY,gp);
-                                p.set(Calendar.MINUTE,mp);
-                                Calendar k=Calendar.getInstance();
-                                k.set(Calendar.HOUR_OF_DAY,gk);
-                                k.set(Calendar.MINUTE,mk);
-                                NewAppointment_tabTime_Event a=new NewAppointment_tabTime_Event(1,p,k,"","",Color.GREEN);
-                                terminy.add(a);
-                            }
-                            if(o.getString("type").equals("appointment")){
-                                String tp=o.getString("godzina_rozpoczecia");
-                                String tk=o.getString("godzina_zakonczenia");
-                                int gp=Integer.parseInt(tp.substring(0,2));
-                                int mp=Integer.parseInt(tp.substring(3,5));
-                                int gk=Integer.parseInt(tk.substring(0,2));
-                                int mk=Integer.parseInt(tk.substring(3,5));
-                                Calendar p=Calendar.getInstance();
-                                p.set(Calendar.HOUR_OF_DAY,gp);
-                                p.set(Calendar.MINUTE,mp);
-                                Calendar k=Calendar.getInstance();
-                                k.set(Calendar.HOUR_OF_DAY,gk);
-                                k.set(Calendar.MINUTE,mk);
-                                NewAppointment_tabTime_Event a=new NewAppointment_tabTime_Event(1,p,k,getString(R.string.new_appointment_tab_time_appointment_label),"",Color.RED);
-                                terminy.add(a);
-                            }
-                            if(o.getString("type").equals("start")){
-                                if(!o.getString("d").equals("null")) day_start=Integer.parseInt(o.getString("d").substring(0,2));
-                                else day_start=0;
-                            }
-                            if(o.getString("type").equals("stop")){
-                                if(!o.getString("d").equals("null")) day_end=Integer.parseInt(o.getString("d").substring(0,2))+1;
-                                else day_end=1;
-                            }
-                            //if(day_start==0&&day_end==1){
+            OkHttpClient client=new OkHttpClient();
+            String url=sql_hostname+"/get_doctor_timetable.php";
+            RequestBody post_data=new FormBody.Builder().add("username",sql_username).add("password",sql_password).add("doctor_id",new_appointment_doctor_id).add("date",new SimpleDateFormat("yyyy-MM-dd").format(date)).build();
+            Request request=new Request.Builder().url(url).post(post_data).build();
+            client.newCall(request).enqueue(new Callback(){
+                @Override
+                public void onFailure(Call call,IOException e){
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call,Response response) throws IOException{
+                    if(response.isSuccessful()){
+                        final String r=response.body().string();
+                        try{
+                            terminy=new ArrayList<>();
+                            JSONArray array=new JSONArray(r);
+                            for(int i=0;i<array.length();i++){
+                                JSONObject o=array.getJSONObject(i);
+                                if(o.getString("type").equals("admission")){
+                                    String tp=o.getString("godzina_rozpoczecia");
+                                    String tk=o.getString("godzina_zakonczenia");
+                                    int gp=Integer.parseInt(tp.substring(0,2));
+                                    int mp=Integer.parseInt(tp.substring(3,5));
+                                    int gk=Integer.parseInt(tk.substring(0,2));
+                                    int mk=Integer.parseInt(tk.substring(3,5));
+                                    Calendar p=Calendar.getInstance();
+                                    p.set(Calendar.HOUR_OF_DAY,gp);
+                                    p.set(Calendar.MINUTE,mp);
+                                    Calendar k=Calendar.getInstance();
+                                    k.set(Calendar.HOUR_OF_DAY,gk);
+                                    k.set(Calendar.MINUTE,mk);
+                                    NewAppointment_tabTime_Event a=new NewAppointment_tabTime_Event(1,p,k,"","",Color.GREEN);
+                                    terminy.add(a);
+                                }
+                                if(o.getString("type").equals("appointment")){
+                                    String tp=o.getString("godzina_rozpoczecia");
+                                    String tk=o.getString("godzina_zakonczenia");
+                                    int gp=Integer.parseInt(tp.substring(0,2));
+                                    int mp=Integer.parseInt(tp.substring(3,5));
+                                    int gk=Integer.parseInt(tk.substring(0,2));
+                                    int mk=Integer.parseInt(tk.substring(3,5));
+                                    Calendar p=Calendar.getInstance();
+                                    p.set(Calendar.HOUR_OF_DAY,gp);
+                                    p.set(Calendar.MINUTE,mp);
+                                    Calendar k=Calendar.getInstance();
+                                    k.set(Calendar.HOUR_OF_DAY,gk);
+                                    k.set(Calendar.MINUTE,mk);
+                                    NewAppointment_tabTime_Event a=new NewAppointment_tabTime_Event(1,p,k,getString(R.string.new_appointment_tab_time_appointment_label),"",Color.RED);
+                                    terminy.add(a);
+                                }
+                                if(o.getString("type").equals("start")){
+                                    if(!o.getString("d").equals("null"))
+                                        day_start=Integer.parseInt(o.getString("d").substring(0,2));
+                                    else day_start=0;
+                                }
+                                if(o.getString("type").equals("stop")){
+                                    if(!o.getString("d").equals("null"))
+                                        day_end=Integer.parseInt(o.getString("d").substring(0,2))+1;
+                                    else day_end=1;
+                                }
+                                //TODO: dodać wyświetlanie najbliższej daty
+                                //if(day_start==0&&day_end==1){
                                 //next_admission_day=o.getString("next_admission_day");
                                 //next_admission_day=weekdays[Integer.parseInt(o.getString("next_admission_day"))];
                                 //next_admission_hour=o.getString("next_admission_hour");
-                            //}
+                                //}
+                            }
+
+                            check_for_no_admissions();
+
+                            getActivity().runOnUiThread(new Runnable(){
+                                public void run(){
+                                    Button btnDate=(Button)getView().findViewById(R.id.btnDate);
+                                    dayView=(CalendarDayView)getView().findViewById(R.id.calendar);
+
+                                    btnDate.setText(df.format(date));
+                                    dayView.setLimitTime(day_start,day_end);
+                                    dayView.setEvents(terminy);
+                                }
+                            });
+                        }catch(JSONException e){
                         }
-
-                        check_for_no_admissions();
-
-                        getActivity().runOnUiThread(new Runnable(){
-                            public void run(){
-                                Button btnDate=(Button)getView().findViewById(R.id.btnDate);
-                                dayView=(CalendarDayView)getView().findViewById(R.id.calendar);
-
-                                btnDate.setText(df.format(date));
-                                dayView.setLimitTime(day_start,day_end);
-                                dayView.setEvents(terminy);
-                            }});
-                    }catch(JSONException e){};
+                        ;
+                    }
                 }
-            }
-        });
-        hideLoading();
+            });
+            hideLoading();
+        }
     }
 
     public void date_prevDay(){
@@ -334,6 +346,14 @@ public class NewAppointment_tabTime extends Fragment{
         getActivity().runOnUiThread(new Runnable(){public void run(){
             TextView t=(TextView)getView().findViewById(R.id.response);
             t.setVisibility(View.GONE);
+        }});
+    }
+
+    public void showErrorNoDoctorSelected(){
+        getActivity().runOnUiThread(new Runnable(){public void run(){
+            TextView t=(TextView)getView().findViewById(R.id.response);
+            t.setText(getResources().getString(R.string.new_appointment_tab_time_no_doctor_selected));
+            t.setVisibility(View.VISIBLE);
         }});
     }
 
