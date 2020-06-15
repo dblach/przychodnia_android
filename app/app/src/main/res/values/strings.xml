@@ -33,6 +33,10 @@
     <string name="settings_saved">Ustawienia zostały zapisane</string>
     <string name="settings_my_appointments">Moje wizyty</string>
     <string name="settings_my_appointments_count_description">Liczba wizyt do wyświetlenia</string>
+    <string name="settings_calendar_integration_label">Integracja z kalendarzem</string>
+    <string name="settings_calendar_integration_yes">Zawsze zapisuj wizyty w kalendarzu systemowym</string>
+    <string name="settings_calendar_integration_ask">Pytaj za każdym razem</string>
+    <string name="settings_calendar_integration_no">Nigdy nie zapisuj</string>
 
     <!-- error: no login data -->
     <string name="error_no_login_data_title">Uwaga</string>

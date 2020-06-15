@@ -102,9 +102,11 @@ public class MainActivity extends AppCompatActivity  {
         String sql_username=pref.getString("sql_username","");
         String sql_password=pref.getString("sql_password","");
         int myappointments_display_count=pref.getInt("myappointments_display_count",0);
+        String calendar_integration=pref.getString("calendar_integration","");
 
         SharedPreferences.Editor edit=pref.edit();
         if(myappointments_display_count==0) edit.putInt("myappointments_display_count",10);
+        if(calendar_integration.equals("")) edit.putString("calendar_integration","ask");
         edit.commit();
 
         if(sql_hostname==""||sql_username==""||sql_password==""){

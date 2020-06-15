@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import android.widget.RadioButton;
 
 public class Settings extends AppCompatActivity{
 
@@ -60,6 +61,9 @@ public class Settings extends AppCompatActivity{
         TextView Username=(TextView)findViewById(R.id.username);
         TextView Password=(TextView)findViewById(R.id.password);
         SeekBar myappointments_display_SeekBar=(SeekBar)findViewById(R.id.myappointments_display_seekbar);
+        RadioButton calendar_integration_yes=(RadioButton)findViewById(R.id.calendar_integration_yes);
+        RadioButton calendar_integration_ask=(RadioButton)findViewById(R.id.calendar_integration_ask);
+        RadioButton calendar_integration_no=(RadioButton)findViewById(R.id.calendar_integration_no);
 
         final Context ctx=this;
         SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
@@ -67,11 +71,15 @@ public class Settings extends AppCompatActivity{
         String sql_username=pref.getString("sql_username","");
         String sql_password=pref.getString("sql_password","");
         int myappointments_display_value=pref.getInt("myappointments_display_count",0);
+        String calendar_integration=pref.getString("calendar_integration","");
 
         Hostname.setText(sql_hostname);
         Username.setText(sql_username);
         Password.setText(sql_password);
         myappointments_display_SeekBar.setProgress(myappointments_display_value);
+        if(calendar_integration.equals("yes")) calendar_integration_yes.setChecked(true);
+        if(calendar_integration.equals("ask")) calendar_integration_ask.setChecked(true);
+        if(calendar_integration.equals("no")) calendar_integration_no.setChecked(true);
     }
 
     public void savePreferences(){
@@ -79,6 +87,9 @@ public class Settings extends AppCompatActivity{
         String Username=((TextView)findViewById(R.id.username)).getText().toString();
         String Password=((TextView)findViewById(R.id.password)).getText().toString();
         SeekBar myappointments_display_SeekBar=(SeekBar)findViewById(R.id.myappointments_display_seekbar);
+        RadioButton calendar_integration_yes=(RadioButton)findViewById(R.id.calendar_integration_yes);
+        RadioButton calendar_integration_ask=(RadioButton)findViewById(R.id.calendar_integration_ask);
+        RadioButton calendar_integration_no=(RadioButton)findViewById(R.id.calendar_integration_no);
 
         //TODO: walidacja
 
@@ -89,6 +100,9 @@ public class Settings extends AppCompatActivity{
         edit.putString("sql_username",Username);
         edit.putString("sql_password",Password);
         edit.putInt("myappointments_display_count",myappointments_display_SeekBar.getProgress());
+        if(calendar_integration_yes.isChecked()) edit.putString("calendar_integration","yes");
+        if(calendar_integration_ask.isChecked()) edit.putString("calendar_integration","ask");
+        if(calendar_integration_no.isChecked()) edit.putString("calendar_integration","no");
         edit.commit();
 
         Toast.makeText(this,getResources().getString(R.string.settings_saved),Toast.LENGTH_SHORT).show();

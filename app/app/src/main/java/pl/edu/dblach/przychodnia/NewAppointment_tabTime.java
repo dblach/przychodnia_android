@@ -21,7 +21,6 @@ import com.framgia.library.calendardayview.CalendarDayView;
 import com.framgia.library.calendardayview.EventView;
 import com.framgia.library.calendardayview.PopupView;
 import com.framgia.library.calendardayview.data.IEvent;
-//import com.framgia.library.calendardayview.data.IPopup;
 import com.framgia.library.calendardayview.decoration.CdvDecorationDefault;
 import java.io.IOException;
 import okhttp3.Call;
@@ -41,6 +40,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.widget.Toast;
+import android.content.Intent;
 
 public class NewAppointment_tabTime extends Fragment{
     private static final String ARG_PARAM1="param1";
@@ -57,6 +57,10 @@ public class NewAppointment_tabTime extends Fragment{
     private String next_admission_day="";
     private String next_admission_hour="";
     //private String[] weekdays=new String[8];
+    private String s_date;
+    private String s_time_start;
+    private String s_time_stop;
+
     private String mParam1;
     private String mParam2;
 
@@ -294,9 +298,9 @@ public class NewAppointment_tabTime extends Fragment{
         c.setTime(time);
         c.add(Calendar.MINUTE,30);
         Date t_stop=c.getTime();
-        String s_date=new SimpleDateFormat("yyyy-MM-dd").format(date);
-        String s_time_start=new SimpleDateFormat("HH:mm").format(time);
-        String s_time_stop=new SimpleDateFormat("HH:mm").format(t_stop);
+        s_date=new SimpleDateFormat("yyyy-MM-dd").format(date);
+        s_time_start=new SimpleDateFormat("HH:mm").format(time);
+        s_time_stop=new SimpleDateFormat("HH:mm").format(t_stop);
         final Context ctx=getContext();
         SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
         final String sql_hostname=pref.getString("sql_hostname","");
@@ -312,23 +316,12 @@ public class NewAppointment_tabTime extends Fragment{
             @Override public void onResponse(Call call,Response response) throws IOException{
                 if(response.isSuccessful()){
                     final String r=response.body().string();
-                    getActivity().runOnUiThread(new Runnable(){public void run(){
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-                        alertDialogBuilder.setTitle("Odpowiedź");
-                        alertDialogBuilder
-                                .setMessage(r)
-                                .setCancelable(false)
-                                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
-                                    }
-                                })
-                                .setNegativeButton("No",new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
-                                    }
-                                });
-                        AlertDialog alertDialog = alertDialogBuilder.create();
-                        alertDialog.show();
-                    }});
+                    if(r.equals("1")){
+                        success();
+                    }
+                    else{
+                        // TODO: toast 'błąd'
+                    }
                 }
             }
         });
@@ -374,5 +367,59 @@ public class NewAppointment_tabTime extends Fragment{
                 c.setVisibility(View.VISIBLE);
             }});
         }
+    }
+
+    public void success(){
+        Context ctx=getContext();
+        SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+        String calendar_integration=pref.getString("calendar_integration","");
+        if(calendar_integration.equals("yes")) savetocalendar();
+        if(calendar_integration.equals("ask")) savetocalendar_showdialog();
+        if(calendar_integration.equals("no")) show_success_msg();
+    }
+
+    public void savetocalendar(){
+        Calendar cal=Calendar.getInstance();
+        Calendar end=Calendar.getInstance();
+        try{
+            cal.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s_date+' '+s_time_start));
+        }
+        catch(Exception e){}
+        try{
+            end.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s_date+' '+s_time_stop));
+        }
+        catch(Exception e){}
+        Intent intent=new Intent(Intent.ACTION_EDIT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra("beginTime",cal.getTimeInMillis());
+        intent.putExtra("allDay",false);
+       //intent.putExtra("rrule","FREQ=YEARLY");
+        intent.putExtra("endTime",end.getTimeInMillis());
+        intent.putExtra("title","Wizyta lekarska");
+        startActivity(intent);
+    }
+
+    public void show_success_msg(){
+
+    }
+
+    public void savetocalendar_showdialog(){
+        getActivity().runOnUiThread(new Runnable(){public void run(){
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+            alertDialogBuilder.setTitle("Odpowiedź");
+            alertDialogBuilder
+                    .setMessage("")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                        }
+                    })
+                    .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                        }
+                    });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }});
     }
 }

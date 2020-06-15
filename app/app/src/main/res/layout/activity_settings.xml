@@ -97,7 +97,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="15dp">
 
@@ -121,7 +121,42 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text=" " />
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/settings_calendar_integration_label"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/calendar_integration"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="9dp">
+
+            <RadioButton
+                android:id="@+id/calendar_integration_yes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_calendar_integration_yes" />
+
+            <RadioButton
+                android:id="@+id/calendar_integration_ask"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_calendar_integration_ask" />
+
+            <RadioButton
+                android:id="@+id/calendar_integration_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_calendar_integration_no" />
+        </RadioGroup>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
