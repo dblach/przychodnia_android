@@ -60,14 +60,7 @@ public class MyAppointments extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        //View v=inflater.inflate(R.layout.fragment_my_appointments,container);
-        //mRecyclerView=(RecyclerView)v.findViewById(R.id.recycler);
-        //mRecyclerView.setHasFixedSize(true);
-        //mLayoutManager=new LinearLayoutManager(getActivity());
-        //mRecyclerView.setLayoutManager(mLayoutManager);
-        //mAdapter=new MyAppointmentsAdapter(ReceiveData());
-        //return super.onCreateView(inflater,container,savedInstanceState);
-        return inflater.inflate(R.layout.fragment_my_appointments,container,false);
+       return inflater.inflate(R.layout.fragment_my_appointments,container,false);
     }
 
     @Override

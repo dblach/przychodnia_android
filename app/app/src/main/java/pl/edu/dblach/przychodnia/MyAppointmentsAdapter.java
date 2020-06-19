@@ -7,6 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import android.graphics.Color;
+import android.content.Context;
+import android.view.View;
 
 public class MyAppointmentsAdapter extends RecyclerView.Adapter<MyAppointmentsAdapter.DataObjectHolder>{
     private ArrayList<Appointment> appointments;
@@ -22,9 +28,6 @@ public class MyAppointmentsAdapter extends RecyclerView.Adapter<MyAppointmentsAd
             description_line1=(TextView)itemView.findViewById(R.id.description_line1);
             description_line2=(TextView)itemView.findViewById(R.id.description_line2);
             description_line3=(TextView)itemView.findViewById(R.id.description_line3);
-            //dateTime = (TextView) itemView.findViewById(R.id.textView2);
-            //Log.i(LOG_TAG, "Adding Listener");
-            //itemView.setOnClickListener(this);
         }
 
         @Override public void onClick(View v) {
@@ -46,6 +49,22 @@ public class MyAppointmentsAdapter extends RecyclerView.Adapter<MyAppointmentsAd
     }
 
     @Override public void onBindViewHolder(DataObjectHolder holder, final int position) {
+        try{
+            Date dw=new SimpleDateFormat("yyyy-MM-dd").parse(appointments.get(position).data());
+            if(new Date().after(dw)){
+                holder.description_line1.setTextColor(Color.parseColor("#adadad"));
+                holder.description_line2.setTextColor(Color.parseColor("#adadad"));
+                holder.description_line3.setTextColor(Color.parseColor("#adadad"));
+            }
+            else{
+                holder.description_line1.setTextColor(Color.parseColor("#000000"));
+                holder.description_line2.setTextColor(Color.parseColor("#000000"));
+                holder.description_line3.setTextColor(Color.parseColor("#000000"));
+            }
+        }
+        catch(Exception e){}
+
+
         holder.description_line1.setText(appointments.get(position).data()+", "+appointments.get(position).godzina_rozpoczecia());
         holder.description_line2.setText(appointments.get(position).lekarz());
         holder.description_line3.setText("");

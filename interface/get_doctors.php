@@ -14,7 +14,7 @@ if($l){
 	}
 	
 	$td=array('type'=>'admission');
-	$q=mysqli_query($l,"select * from godziny_przyjec where specjalizacja=$idc");
+	$q=mysqli_query($l,"select id_przyjecia,id_lekarza,specjalizacja,dzien_tygodnia,time_format(godzina_rozpoczecia,\"%H:%i\") as godzina_rozpoczecia,time_format(godzina_zakonczenia,\"%H:%i\") as godzina_zakonczenia,pomieszczenie from godziny_przyjec where specjalizacja=$idc");
 	while($r=mysqli_fetch_assoc($q)){
 		$a[$c]=$td+$r;
 		$c++;

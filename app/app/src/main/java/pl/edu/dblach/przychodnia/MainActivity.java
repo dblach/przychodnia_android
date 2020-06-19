@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity  {
         toggle.syncState();
 
         NavigationView nav_view = findViewById(R.id.nav_view);
-        //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new SearchFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MainPageFragment()).commit();
 
-        //nav_view.setCheckedItem(R.id.search);
+        nav_view.setCheckedItem(R.id.main);
 
         final Context ctx=this;
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity  {
                 Intent i;
                 switch(menuItem.getItemId()){
                     case R.id.main:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MainPageFragment()).commit();
                         break;
                     case R.id.appointments:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MyAppointments()).commit();
@@ -62,31 +63,6 @@ public class MainActivity extends AppCompatActivity  {
                         i=new Intent(ctx,Settings.class);
                         startActivity(i);
                         break;
-
-                    /*
-                    case R.id.test_cardview:
-                        //i=new Intent(ctx,Test_CardViewActivity.class);
-                        //startActivity(i);
-                        break;
-                    case R.id.test_cardview_fragment:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new Test_CardView_Fragment()).commit();
-                        break;
-                    /*
-                    case R.id.call:
-                        //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CallFragment()).commit();
-                        break;
-                    case R.id.share:
-                        //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ShareFragment()).commit();
-                        break;
-                    case R.id.send:
-                        //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SendFragment()).commit();
-
-                        break;
-                    case R.id.close:
-                        finish();
-                        break;
-                        */
-
                 }
 
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -139,18 +115,3 @@ public class MainActivity extends AppCompatActivity  {
             super.onBackPressed();
     }
 }
-
-/*
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
-public class MainActivity extends AppCompatActivity{
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-}
-*/

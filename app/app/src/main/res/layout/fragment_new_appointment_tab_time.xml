@@ -49,14 +49,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Wybierz godzinę" />
+                android:text="@string/new_appointment_tab_time_select_hour" />
 
             <Button
                 android:id="@+id/btnSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Zapisz" />
+                android:text="@string/save" />
         </LinearLayout>
 
         <TextView

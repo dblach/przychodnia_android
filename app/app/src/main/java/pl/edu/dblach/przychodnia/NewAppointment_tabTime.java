@@ -58,7 +58,7 @@ public class NewAppointment_tabTime extends Fragment{
     private String next_admission_hour="";
     //private String[] weekdays=new String[8];
     private String s_date;
-    private String s_time_start;
+    private String s_time_start="";
     private String s_time_stop;
 
     private String mParam1;
@@ -294,37 +294,47 @@ public class NewAppointment_tabTime extends Fragment{
     }
 
     public void save(){
-        Calendar c=Calendar.getInstance();
-        c.setTime(time);
-        c.add(Calendar.MINUTE,30);
-        Date t_stop=c.getTime();
-        s_date=new SimpleDateFormat("yyyy-MM-dd").format(date);
-        s_time_start=new SimpleDateFormat("HH:mm").format(time);
-        s_time_stop=new SimpleDateFormat("HH:mm").format(t_stop);
-        final Context ctx=getContext();
-        SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-        final String sql_hostname=pref.getString("sql_hostname","");
-        String sql_username=pref.getString("sql_username","");
-        String sql_password=pref.getString("sql_password","");
-        String new_appointment_doctor_id=pref.getString("NewAppointment_doctor_id","");
-        OkHttpClient client=new OkHttpClient();
-        String url=sql_hostname+"/add_appointment.php";
-        RequestBody post_data=new FormBody.Builder().add("username",sql_username).add("password",sql_password).add("doctor_id",new_appointment_doctor_id).add("date",s_date).add("czas_rozpoczecia",s_time_start).add("czas_zakonczenia",s_time_stop).build();
-        Request request=new Request.Builder().url(url).post(post_data).build();
-        client.newCall(request).enqueue(new Callback(){
-            @Override public void onFailure(Call call,IOException e){e.printStackTrace();}
-            @Override public void onResponse(Call call,Response response) throws IOException{
-                if(response.isSuccessful()){
-                    final String r=response.body().string();
-                    if(r.equals("1")){
-                        success();
-                    }
-                    else{
-                        // TODO: toast 'błąd'
+        Button btn=getActivity().findViewById(R.id.btnSelectTime);
+        if(btn.getText().equals(getResources().getString(R.string.new_appointment_tab_time_select_hour))){
+            show_dialog_msg(getResources().getString(R.string.new_appointment_tab_time_no_time_selected));
+        }
+        else{
+            Calendar c=Calendar.getInstance();
+            c.setTime(time);
+            c.add(Calendar.MINUTE,30);
+            Date t_stop=c.getTime();
+            s_date=new SimpleDateFormat("yyyy-MM-dd").format(date);
+            s_time_start=new SimpleDateFormat("HH:mm").format(time);
+            s_time_stop=new SimpleDateFormat("HH:mm").format(t_stop);
+            final Context ctx=getContext();
+            SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+            final String sql_hostname=pref.getString("sql_hostname","");
+            String sql_username=pref.getString("sql_username","");
+            String sql_password=pref.getString("sql_password","");
+            String new_appointment_doctor_id=pref.getString("NewAppointment_doctor_id","");
+            OkHttpClient client=new OkHttpClient();
+            String url=sql_hostname+"/add_appointment.php";
+            RequestBody post_data=new FormBody.Builder().add("username",sql_username).add("password",sql_password).add("doctor_id",new_appointment_doctor_id).add("date",s_date).add("czas_rozpoczecia",s_time_start).add("czas_zakonczenia",s_time_stop).build();
+            Request request=new Request.Builder().url(url).post(post_data).build();
+            client.newCall(request).enqueue(new Callback(){
+                @Override
+                public void onFailure(Call call,IOException e){
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call,Response response) throws IOException{
+                    if(response.isSuccessful()){
+                        final String r=response.body().string();
+                        if(r.equals("{\"error_no_appointment\":\"1\"}")) show_dialog_msg(getResources().getString(R.string.new_appointment_tab_time_error_no_appointment));
+                        if(r.equals("{\"error_busy\":\"1\"}")) show_dialog_msg(getResources().getString(R.string.new_appointment_tab_time_error_busy));
+                        if(r.equals("{\"result\":1}")){
+                            success();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     public void showLoading(){
@@ -393,33 +403,64 @@ public class NewAppointment_tabTime extends Fragment{
         intent.setType("vnd.android.cursor.item/event");
         intent.putExtra("beginTime",cal.getTimeInMillis());
         intent.putExtra("allDay",false);
-       //intent.putExtra("rrule","FREQ=YEARLY");
         intent.putExtra("endTime",end.getTimeInMillis());
         intent.putExtra("title","Wizyta lekarska");
         startActivity(intent);
+        getActivity().finish();
     }
 
     public void show_success_msg(){
-
+        getActivity().runOnUiThread(new Runnable(){public void run(){
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+            alertDialogBuilder.setTitle("");
+            alertDialogBuilder
+                    .setMessage(getResources().getString(R.string.new_appointment_tab_time_success))
+                    .setCancelable(false)
+                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            getActivity().finish();
+                        }
+                    });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }});
     }
 
     public void savetocalendar_showdialog(){
         getActivity().runOnUiThread(new Runnable(){public void run(){
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-            alertDialogBuilder.setTitle("Odpowiedź");
+            alertDialogBuilder.setTitle("");
             alertDialogBuilder
-                    .setMessage("")
+                    .setMessage(getResources().getString(R.string.new_appointment_tab_time_addtocalendar_question))
                     .setCancelable(false)
-                    .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    .setPositiveButton(getResources().getString(R.string.yes),new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,int id) {
+                            savetocalendar();
                         }
                     })
-                    .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getResources().getString(R.string.no),new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,int id) {
                         }
                     });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
         }});
+    }
+
+    public void show_dialog_msg(final String t){
+        getActivity().runOnUiThread(new Runnable(){public void run(){
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+            alertDialogBuilder.setTitle("");
+            alertDialogBuilder
+                    .setMessage(t)
+                    .setCancelable(false)
+                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                        }
+                    });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }});
+
     }
 }
