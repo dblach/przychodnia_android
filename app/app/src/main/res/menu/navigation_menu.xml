@@ -7,6 +7,10 @@
             android:icon="@android:drawable/ic_menu_myplaces"
             android:title="@string/menu_main_label"></item>
         <item
+            android:id="@+id/news"
+            android:icon="@android:drawable/ic_dialog_email"
+            android:title="@string/menu_news_label" />
+        <item
             android:id="@+id/appointments"
             android:icon="@android:drawable/ic_menu_my_calendar"
             android:title="@string/menu_appointments_label" />

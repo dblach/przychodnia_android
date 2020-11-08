@@ -15,6 +15,7 @@
     <string name="menu_settings_label">Ustawienia</string>
     <string name="menu_appointments_label">Moje wizyty</string>
     <string name="menu_new_appointment_label">Umów wizytę</string>
+    <string name="menu_news_label">Wiadomości</string>
 
     <!-- dodawanie wizyty -->
     <string name="new_appointment_tab_clinic_label">Poradnia</string>
@@ -51,7 +52,7 @@
     <string name="error_no_login_data_message">Brak danych logowania - aplikacja nie będzie działać poprawnie, dopóki nie wprowadzisz ich w ustawieniach.</string>
     <string name="error_no_login_data_open_settings">Otwórz ustawienia</string>
 
-    <string name="main_page_hello">Witaj w aplikacji\nMoja Przychodnia!</string>
+    <string name="main_page_hello">Ładowanie...</string>
 
     <!-- dni tygodnia -->
     <string name="weekday_monday">Poniedziałek</string>
@@ -64,4 +65,7 @@
 
     <string name="hello_blank_fragment">Ładowanie...</string>
     <string name="loading">Ładowanie...</string>
+
+    <!-- strona główna -->
+    <string name="latest_news">Najnowsze wiadomości</string>
 </resources>

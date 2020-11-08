@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity  {
                     case R.id.main:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MainPageFragment()).commit();
                         break;
+                    case R.id.news:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new NewsFragment()).commit();
+                        break;
                     case R.id.appointments:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MyAppointments()).commit();
                         break;

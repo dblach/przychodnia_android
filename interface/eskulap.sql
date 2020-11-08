@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 31 Maj 2020, 23:03
+-- Czas generowania: 08 Lis 2020, 19:20
 -- Wersja serwera: 10.4.11-MariaDB
 -- Wersja PHP: 7.4.5
 
@@ -46,6 +46,25 @@ INSERT INTO `godziny_przyjec` (`id_przyjecia`, `id_lekarza`, `specjalizacja`, `d
 (2, 2, 1, 3, '12:00:00', '14:00:00', '3'),
 (3, 1, 1, 2, '09:00:00', '10:00:00', '2'),
 (4, 1, 1, 2, '14:00:00', '16:00:00', '2');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `konfiguracja`
+--
+
+CREATE TABLE `konfiguracja` (
+  `ustawienie` varchar(30) NOT NULL,
+  `wartosc` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `konfiguracja`
+--
+
+INSERT INTO `konfiguracja` (`ustawienie`, `wartosc`) VALUES
+('logo', 'icon_main.png'),
+('tekst_powitalny', 'Zapraszamy!');
 
 -- --------------------------------------------------------
 
@@ -120,6 +139,29 @@ INSERT INTO `specjalizacje` (`id`, `nazwa`, `ikona`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktura tabeli dla tabeli `wiadomosci`
+--
+
+CREATE TABLE `wiadomosci` (
+  `id` int(11) NOT NULL,
+  `nazwa` varchar(50) NOT NULL,
+  `tresc` text NOT NULL,
+  `obraz` varchar(30) NOT NULL,
+  `data_dodania` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `wiadomosci`
+--
+
+INSERT INTO `wiadomosci` (`id`, `nazwa`, `tresc`, `obraz`, `data_dodania`) VALUES
+(1, 'test długiej wiadomości', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam non metus a velit iaculis aliquet. Ut molestie turpis mi, sed varius nibh faucibus ac. Suspendisse nec ultrices mi, cursus cursus odio. Pellentesque id justo mi. Pellentesque pellentesque consectetur fringilla. Quisque in tincidunt arcu. Duis lacinia tincidunt lacus, nec viverra ipsum placerat at. Fusce eget mauris ut metus placerat rutrum. Etiam convallis posuere gravida. Sed mauris libero, lobortis et lacinia sed, faucibus sit amet massa. In a diam sollicitudin, egestas ante et, pretium quam. Pellentesque sit amet odio velit. Phasellus ac nibh aliquet, interdum elit ac, feugiat urna.\r\n\r\nUt in velit vitae turpis fringilla suscipit. Cras consequat maximus purus hendrerit mattis. Fusce faucibus finibus nunc nec ultricies. Vivamus ullamcorper justo nec ornare porta. Ut ut nulla finibus, viverra sem eget, elementum nulla. Donec euismod sapien et tortor volutpat cursus. Pellentesque suscipit id enim vitae fermentum. Nam a nisl vestibulum, euismod velit eu, fermentum lacus. Morbi a metus quis sapien cursus consequat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras id magna vitae mi pretium rutrum quis nec sem. Curabitur quis ex non sem mollis consectetur. Aliquam sed orci nec nisi dictum tempor vulputate ac sapien. Curabitur fringilla vel lorem ut viverra. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n\r\nPhasellus hendrerit in velit vel porttitor. Phasellus feugiat consequat ante vel pretium. Sed vel lobortis lacus. Mauris nec tristique dui. Mauris feugiat, justo sed molestie vestibulum, augue nibh malesuada leo, vitae imperdiet ipsum tellus a nunc. Sed sed ante enim. Nam dui ex, consequat non arcu nec, finibus semper nisl. Donec mi enim, accumsan et fringilla eu, cursus vitae velit.\r\n\r\nNulla eleifend ullamcorper nibh. Phasellus molestie a augue at interdum. Nulla venenatis nec erat in euismod. In lacinia tortor sed hendrerit pretium. Integer non lorem magna. Proin ut orci id diam posuere pretium ut ac ipsum. Ut placerat ligula quis fermentum tincidunt. Morbi non nisl mauris. Donec rutrum ullamcorper sagittis. Fusce iaculis mattis dignissim.\r\n\r\nNullam condimentum lectus nec dui sodales ultrices. Suspendisse et metus ut lorem aliquet hendrerit eu a diam. Nulla scelerisque sodales justo ac tincidunt. Integer ornare gravida eros tempus sagittis. Vestibulum in auctor magna. Integer varius mauris sit amet lacus pulvinar convallis eu a quam. Donec malesuada eget ipsum sit amet malesuada.', 'lorem.jpg', '2020-10-14 14:06:20'),
+(2, 'Teleporada', 'Przychodnia udziela teleporad pod nr tel. 123456789.', 'phone.jpg', '2020-09-16 16:16:04'),
+(3, 'Zmiana godzin otwarcia', 'Od 9 listopada przychodnia będzie czynna w godzinach 10-16.', 'clock.jpg', '2020-11-08 17:29:34');
+
+-- --------------------------------------------------------
+
+--
 -- Struktura tabeli dla tabeli `wizyty`
 --
 
@@ -146,7 +188,14 @@ INSERT INTO `wizyty` (`id`, `pacjent_id`, `lekarz_id`, `data`, `czas_rozpoczecia
 (10, 1, 2, '2019-01-19', '03:00:00', '05:00:00', 'fgsefg', 0),
 (11, 5, 2, '2019-01-23', '09:00:00', '10:00:00', '', 0),
 (12, 5, 1, '2020-05-21', '16:00:00', '16:30:00', '', 0),
-(19, 5, 1, '2020-06-02', '09:30:00', '10:00:00', '', 0);
+(19, 5, 1, '2020-06-02', '09:30:00', '10:00:00', '', 0),
+(20, 5, 1, '2020-06-02', '15:00:00', '15:30:00', '', 0),
+(21, 5, 2, '2020-06-15', '11:00:00', '11:30:00', '', 0),
+(35, 5, 1, '2020-06-16', '15:00:00', '15:30:00', '', 0),
+(36, 5, 1, '2020-06-23', '14:30:00', '15:00:00', '', 0),
+(38, 5, 1, '2020-06-23', '09:00:00', '09:30:00', '', 0),
+(39, 5, 2, '2020-10-12', '10:30:00', '11:00:00', '', 0),
+(40, 5, 2, '2020-10-12', '11:30:00', '12:00:00', '', 0);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -176,6 +225,12 @@ ALTER TABLE `pacjenci`
 -- Indeksy dla tabeli `specjalizacje`
 --
 ALTER TABLE `specjalizacje`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeksy dla tabeli `wiadomosci`
+--
+ALTER TABLE `wiadomosci`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -215,10 +270,16 @@ ALTER TABLE `specjalizacje`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT dla tabeli `wiadomosci`
+--
+ALTER TABLE `wiadomosci`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT dla tabeli `wizyty`
 --
 ALTER TABLE `wizyty`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- Ograniczenia dla zrzutów tabel
