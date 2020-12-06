@@ -9,6 +9,16 @@
     <string name="save">Zapisz</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
+    <string name="date">Data</string>
+    <string name="time">Godzina</string>
+    <string name="doctor">Lekarz</string>
+    <string name="clinic">Poradnia</string>
+    <string name="note">Notatka</string>
+    <string name="cancelled">Odwołana</string>
+    <string name="room">Pomieszczenie</string>
+    <string name="days">Dni</string>
+    <string name="edit">Edytuj</string>
+    <string name="cancel_appointment">Odwołaj</string>
 
     <!-- menu -->
     <string name="menu_main_label">Początek</string>
@@ -46,6 +56,8 @@
     <string name="settings_calendar_integration_yes">Zawsze zapisuj wizyty w kalendarzu systemowym</string>
     <string name="settings_calendar_integration_ask">Pytaj za każdym razem</string>
     <string name="settings_calendar_integration_no">Nigdy nie zapisuj</string>
+    <string name="settings_configuration">Konfiguracja</string>
+    <string name="settings_configuration_time_to_edit">Czas na edycję wizyty</string>
 
     <!-- error: no login data -->
     <string name="error_no_login_data_title">Uwaga</string>
@@ -68,4 +80,8 @@
 
     <!-- strona główna -->
     <string name="latest_news">Najnowsze wiadomości</string>
+
+    <!-- edycja wizyty -->
+    <string name="edit_appointment_confirm_cancel">Czy na pewno chcesz odwołać wizytę?</string>
+    <string name="edit_appointment_cancel_error">Nie udało się odwołać wizyty.</string>
 </resources>

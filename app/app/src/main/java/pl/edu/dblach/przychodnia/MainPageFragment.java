@@ -76,10 +76,12 @@ public class MainPageFragment extends Fragment{
 
     private void ReceiveData(){
         final Context ctx=getContext();
-        SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+        final SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
         final String sql_hostname=pref.getString("sql_hostname","");
         String sql_username=pref.getString("sql_username","");
         String sql_password=pref.getString("sql_password","");
+
+        if(sql_hostname.equals("")) return;
 
         OkHttpClient client=new OkHttpClient();
         String url=sql_hostname+"/get_main_page.php";
@@ -108,6 +110,30 @@ public class MainPageFragment extends Fragment{
                 }
             }
         });
+
+        client=new OkHttpClient();
+        url=sql_hostname+"/get_configuration.php";
+        post_data=new FormBody.Builder().add("username",sql_username).add("password",sql_password).build();
+        request=new Request.Builder().url(url).post(post_data).build();
+        client.newCall(request).enqueue(new Callback(){
+            @Override public void onFailure(Call call,IOException e){
+                e.printStackTrace();
+            }
+            @Override public void onResponse(Call call,Response response) throws IOException{
+                if(response.isSuccessful()){
+                    final String r=response.body().string();
+                    try{
+                        JSONArray array=new JSONArray(r);
+                        JSONObject o=array.getJSONObject(0);
+                        final String edit_time=o.getString("czas_na_edycje");
+                        SharedPreferences.Editor edit=pref.edit();
+                        edit.putString("edit_time",edit_time);
+                        edit.commit();
+                    }
+                    catch(JSONException e){};
+                }
+            }
+        });
     }
 
     private ArrayList<News> ReceiveNews(){
@@ -116,6 +142,8 @@ public class MainPageFragment extends Fragment{
         final String sql_hostname=pref.getString("sql_hostname","");
         String sql_username=pref.getString("sql_username","");
         String sql_password=pref.getString("sql_password","");
+
+        if(sql_hostname.equals("")) return new ArrayList<News>();
 
         OkHttpClient client=new OkHttpClient();
         String url=sql_hostname+"/get_news.php";

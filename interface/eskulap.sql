@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 08 Lis 2020, 19:20
+-- Czas generowania: 06 Gru 2020, 19:06
 -- Wersja serwera: 10.4.11-MariaDB
 -- Wersja PHP: 7.4.5
 
@@ -64,7 +64,8 @@ CREATE TABLE `konfiguracja` (
 
 INSERT INTO `konfiguracja` (`ustawienie`, `wartosc`) VALUES
 ('logo', 'icon_main.png'),
-('tekst_powitalny', 'Zapraszamy!');
+('tekst_powitalny', 'Zapraszamy!'),
+('czas_na_edycje', '2');
 
 -- --------------------------------------------------------
 
@@ -156,7 +157,7 @@ CREATE TABLE `wiadomosci` (
 
 INSERT INTO `wiadomosci` (`id`, `nazwa`, `tresc`, `obraz`, `data_dodania`) VALUES
 (1, 'test długiej wiadomości', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam non metus a velit iaculis aliquet. Ut molestie turpis mi, sed varius nibh faucibus ac. Suspendisse nec ultrices mi, cursus cursus odio. Pellentesque id justo mi. Pellentesque pellentesque consectetur fringilla. Quisque in tincidunt arcu. Duis lacinia tincidunt lacus, nec viverra ipsum placerat at. Fusce eget mauris ut metus placerat rutrum. Etiam convallis posuere gravida. Sed mauris libero, lobortis et lacinia sed, faucibus sit amet massa. In a diam sollicitudin, egestas ante et, pretium quam. Pellentesque sit amet odio velit. Phasellus ac nibh aliquet, interdum elit ac, feugiat urna.\r\n\r\nUt in velit vitae turpis fringilla suscipit. Cras consequat maximus purus hendrerit mattis. Fusce faucibus finibus nunc nec ultricies. Vivamus ullamcorper justo nec ornare porta. Ut ut nulla finibus, viverra sem eget, elementum nulla. Donec euismod sapien et tortor volutpat cursus. Pellentesque suscipit id enim vitae fermentum. Nam a nisl vestibulum, euismod velit eu, fermentum lacus. Morbi a metus quis sapien cursus consequat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras id magna vitae mi pretium rutrum quis nec sem. Curabitur quis ex non sem mollis consectetur. Aliquam sed orci nec nisi dictum tempor vulputate ac sapien. Curabitur fringilla vel lorem ut viverra. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n\r\nPhasellus hendrerit in velit vel porttitor. Phasellus feugiat consequat ante vel pretium. Sed vel lobortis lacus. Mauris nec tristique dui. Mauris feugiat, justo sed molestie vestibulum, augue nibh malesuada leo, vitae imperdiet ipsum tellus a nunc. Sed sed ante enim. Nam dui ex, consequat non arcu nec, finibus semper nisl. Donec mi enim, accumsan et fringilla eu, cursus vitae velit.\r\n\r\nNulla eleifend ullamcorper nibh. Phasellus molestie a augue at interdum. Nulla venenatis nec erat in euismod. In lacinia tortor sed hendrerit pretium. Integer non lorem magna. Proin ut orci id diam posuere pretium ut ac ipsum. Ut placerat ligula quis fermentum tincidunt. Morbi non nisl mauris. Donec rutrum ullamcorper sagittis. Fusce iaculis mattis dignissim.\r\n\r\nNullam condimentum lectus nec dui sodales ultrices. Suspendisse et metus ut lorem aliquet hendrerit eu a diam. Nulla scelerisque sodales justo ac tincidunt. Integer ornare gravida eros tempus sagittis. Vestibulum in auctor magna. Integer varius mauris sit amet lacus pulvinar convallis eu a quam. Donec malesuada eget ipsum sit amet malesuada.', 'lorem.jpg', '2020-10-14 14:06:20'),
-(2, 'Teleporada', 'Przychodnia udziela teleporad pod nr tel. 123456789.', 'phone.jpg', '2020-09-16 16:16:04'),
+(2, 'Teleporada', 'Przychodnia udziela teleporad pod nr tel. 123456789.', 'phone.jpg', '2020-11-06 17:16:04'),
 (3, 'Zmiana godzin otwarcia', 'Od 9 listopada przychodnia będzie czynna w godzinach 10-16.', 'clock.jpg', '2020-11-08 17:29:34');
 
 -- --------------------------------------------------------
@@ -194,8 +195,12 @@ INSERT INTO `wizyty` (`id`, `pacjent_id`, `lekarz_id`, `data`, `czas_rozpoczecia
 (35, 5, 1, '2020-06-16', '15:00:00', '15:30:00', '', 0),
 (36, 5, 1, '2020-06-23', '14:30:00', '15:00:00', '', 0),
 (38, 5, 1, '2020-06-23', '09:00:00', '09:30:00', '', 0),
-(39, 5, 2, '2020-10-12', '10:30:00', '11:00:00', '', 0),
-(40, 5, 2, '2020-10-12', '11:30:00', '12:00:00', '', 0);
+(39, 5, 2, '2020-10-12', '10:30:00', '11:00:00', 'Aspiryna 2x dziennie\r\nIbuprom 1x dziennie', 0),
+(40, 5, 2, '2020-10-12', '11:30:00', '12:00:00', '', 0),
+(41, 5, 1, '2020-12-08', '09:00:00', '09:30:00', '', 1),
+(42, 5, 2, '2020-12-07', '11:30:00', '12:00:00', '', 0),
+(43, 5, 2, '2020-12-16', '13:00:00', '13:30:00', '', 1),
+(44, 5, 1, '2020-12-15', '14:00:00', '14:30:00', '', 0);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -279,7 +284,7 @@ ALTER TABLE `wiadomosci`
 -- AUTO_INCREMENT dla tabeli `wizyty`
 --
 ALTER TABLE `wizyty`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- Ograniczenia dla zrzutów tabel

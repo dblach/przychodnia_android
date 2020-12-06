@@ -13,10 +13,15 @@ import java.util.Calendar;
 import android.graphics.Color;
 import android.content.Context;
 import android.view.View;
+import android.content.Intent;
+import android.app.Activity;
+import android.widget.Toast;
 
 public class MyAppointmentsAdapter extends RecyclerView.Adapter<MyAppointmentsAdapter.DataObjectHolder>{
     private ArrayList<Appointment> appointments;
     private static MyClickListener myClickListener;
+    private Context mContext;
+    private int ViewAppointmentDetailsReturnCode;
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView description_line1;
@@ -39,7 +44,10 @@ public class MyAppointmentsAdapter extends RecyclerView.Adapter<MyAppointmentsAd
         this.myClickListener = myClickListener;
     }
 
-    public MyAppointmentsAdapter(ArrayList<Appointment> myDataset){appointments=myDataset;}
+    public MyAppointmentsAdapter(ArrayList<Appointment> myDataset,Context ctx){
+        appointments=myDataset;
+        mContext=ctx;
+    }
 
     @Override public DataObjectHolder onCreateViewHolder(ViewGroup parent,int viewType) {
         View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_my_appointments_card, parent, false);
@@ -71,7 +79,10 @@ public class MyAppointmentsAdapter extends RecyclerView.Adapter<MyAppointmentsAd
 
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View v){
-                Toast.makeText(v.getContext(),"klik="+position,Toast.LENGTH_SHORT).show();
+                Intent i=new Intent(v.getContext(),ViewAppointmentDetails.class);
+                i.putExtra("id",appointments.get(position).id());
+                Activity origin=(Activity)mContext;
+                origin.startActivityForResult(i,ViewAppointmentDetailsReturnCode);
             }
         });
     }
@@ -93,4 +104,5 @@ public class MyAppointmentsAdapter extends RecyclerView.Adapter<MyAppointmentsAd
     public interface MyClickListener {
         public void onItemClick(int position, View v);
     }
+
 }

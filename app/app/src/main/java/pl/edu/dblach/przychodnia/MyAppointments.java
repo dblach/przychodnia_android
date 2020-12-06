@@ -37,6 +37,7 @@ public class MyAppointments extends Fragment{
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Appointment> appointmentsList=new ArrayList<Appointment>();
     private boolean RecyclerAdapterConnected=false;
+    private int ViewAppointmentDetailsReturnCode=0;
 
     public MyAppointments(){}
 
@@ -70,7 +71,7 @@ public class MyAppointments extends Fragment{
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager=new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter=new MyAppointmentsAdapter(ReceiveData());
+        mAdapter=new MyAppointmentsAdapter(ReceiveData(),getContext());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -97,8 +98,7 @@ public class MyAppointments extends Fragment{
                         JSONArray array=new JSONArray(r);
                         for(int i=0;i<array.length();i++){
                             JSONObject o=array.getJSONObject(i);
-                            //TODO: przesyłać id wizyty
-                            Appointment a=new Appointment(o.getString("czas_rozpoczecia"),o.getString("czas_zakonczenia"),o.getString("data"),o.getString("nazwisko"),o.getString("imie"));
+                            Appointment a=new Appointment(o.getString("id"),o.getString("czas_rozpoczecia"),o.getString("czas_zakonczenia"),o.getString("data"),o.getString("nazwisko"),o.getString("imie"));
                             appointmentsList.add(i,a);
                         }
                     }

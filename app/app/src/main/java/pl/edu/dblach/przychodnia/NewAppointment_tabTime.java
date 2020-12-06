@@ -56,7 +56,6 @@ public class NewAppointment_tabTime extends Fragment{
     private int m;
     private String next_admission_day="";
     private String next_admission_hour="";
-    //private String[] weekdays=new String[8];
     private String s_date;
     private String s_time_start="";
     private String s_time_stop;
@@ -112,15 +111,6 @@ public class NewAppointment_tabTime extends Fragment{
             save();
         }});
 
-        /*weekdays[0]="";
-        weekdays[1]=getString(R.string.weekday_monday);
-        weekdays[2]=getString(R.string.weekday_tuesday);
-        weekdays[3]=getString(R.string.weekday_wednesday);
-        weekdays[4]=getString(R.string.weekday_thursday);
-        weekdays[5]=getString(R.string.weekday_friday);
-        weekdays[6]=getString(R.string.weekday_saturday);
-        weekdays[7]=getString(R.string.weekday_sunday);
-*/
         return v;
     }
 
