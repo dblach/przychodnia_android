@@ -86,9 +86,6 @@ public class ViewAppointmentDetails extends AppCompatActivity{
                         Date data_wizyty=new Date();
                         try{data_wizyty=df.parse(data+", "+godzina);} catch(ParseException e){}
                         final long diff=(data_wizyty.getTime()-new Date().getTime())/(86400000);
-                        //ViewAppointmentDetails.this.runOnUiThread(new Runnable(){public void run(){
-                        //    Toast.makeText(ViewAppointmentDetails.this,String.valueOf(diff),Toast.LENGTH_SHORT).show();
-                        //}});
                         if(diff<Integer.parseInt(pref.getString("edit_time",""))) HideBtnEdit=true;
 
                         runOnUiThread(new Runnable(){public void run(){
@@ -154,7 +151,6 @@ public class ViewAppointmentDetails extends AppCompatActivity{
         super.onActivityResult(requestCode,resultCode,data);
         if(requestCode==EditRequestCode){
             if(resultCode==Activity.RESULT_OK){
-                //Toast.makeText(this,"Edited",Toast.LENGTH_LONG).show();
                 if(data.getStringExtra("state").equals("saved")) ReceiveData();
                 if(data.getStringExtra("state").equals("deleted")) finish();
             }

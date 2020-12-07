@@ -385,18 +385,20 @@ public class EditAppointment extends AppCompatActivity{
     }
 
     public void show_success_msg(){
-        AlertDialog.Builder alertDialogBuilder=new AlertDialog.Builder(EditAppointment.this);
-        alertDialogBuilder.setTitle("");
-        alertDialogBuilder
-                .setMessage(getResources().getString(R.string.new_appointment_tab_time_success))
-                .setCancelable(false)
-                .setPositiveButton("OK",new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog,int id){
-                        form_close("success");
-                    }
-                });
-        AlertDialog alertDialog=alertDialogBuilder.create();
-        alertDialog.show();
+        EditAppointment.this.runOnUiThread(new Runnable(){public void run(){
+            AlertDialog.Builder alertDialogBuilder=new AlertDialog.Builder(EditAppointment.this);
+            alertDialogBuilder.setTitle("");
+            alertDialogBuilder
+                    .setMessage(getResources().getString(R.string.edit_appointment_success))
+                    .setCancelable(false)
+                    .setPositiveButton("OK",new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog,int id){
+                            form_close("saved");
+                        }
+                    });
+            AlertDialog alertDialog=alertDialogBuilder.create();
+            alertDialog.show();
+        }});
     }
 
     public void check_for_no_admissions(){

@@ -84,4 +84,5 @@
     <!-- edycja wizyty -->
     <string name="edit_appointment_confirm_cancel">Czy na pewno chcesz odwołać wizytę?</string>
     <string name="edit_appointment_cancel_error">Nie udało się odwołać wizyty.</string>
+    <string name="edit_appointment_success">Wizyta została zmieniona pomyślnie.</string>
 </resources>
