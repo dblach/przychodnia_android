@@ -65,6 +65,7 @@ public class NewAppointment_tabDoctor_DoctorAdapter extends RecyclerView.Adapter
             SharedPreferences pref=context.getSharedPreferences(context.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
             SharedPreferences.Editor edit=pref.edit();
             edit.putString("NewAppointment_doctor_id",doctors.get(position).id());
+            edit.putString("NewAppointment_doctor_name",doctors.get(position).imie()+" "+doctors.get(position).nazwisko());
             edit.commit();
             row_index=position;
             notifyDataSetChanged();

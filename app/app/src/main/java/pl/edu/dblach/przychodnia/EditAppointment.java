@@ -54,7 +54,7 @@ public class EditAppointment extends AppCompatActivity{
     private int day_end;
     private int h;
     private int m;
-    private String next_admission_day="";
+    private String next_admission_date="";
     private String next_admission_hour="";
     private String s_date;
     private String s_time_start="";
@@ -116,7 +116,7 @@ public class EditAppointment extends AppCompatActivity{
     }
 
     public void updateDate(){
-    //    showLoading();
+        showLoading();
         final Context ctx=EditAppointment.this;
         Intent in=getIntent();
         SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
@@ -185,12 +185,9 @@ public class EditAppointment extends AppCompatActivity{
                                     day_end=Integer.parseInt(o.getString("d").substring(0,2))+1;
                                 else day_end=1;
                             }
-                            //TODO: dodać wyświetlanie najbliższej daty
-                            //if(day_start==0&&day_end==1){
-                            //next_admission_day=o.getString("next_admission_day");
-                            //next_admission_day=weekdays[Integer.parseInt(o.getString("next_admission_day"))];
-                            //next_admission_hour=o.getString("next_admission_hour");
-                            //}
+                            if(o.getString("type").equals("next")){
+                                next_admission_date=o.getString("d");
+                            }
                         }
 
                         check_for_no_admissions();
@@ -208,7 +205,7 @@ public class EditAppointment extends AppCompatActivity{
                 }
             }
         });
-        //hideLoading();
+        hideLoading();
     }
 
     public void btnSaveClick(View v){
@@ -406,9 +403,15 @@ public class EditAppointment extends AppCompatActivity{
         final CalendarDayView c=(CalendarDayView)findViewById(R.id.calendar);
         if(day_start==0&&day_end==1){
             EditAppointment.this.runOnUiThread(new Runnable(){public void run(){
-                t.setText(getResources().getString(R.string.new_appointment_tab_time_no_admissions).replace("%nd",next_admission_day).replace("%nh",next_admission_hour));
+                String dt="";
+                try{dt=new SimpleDateFormat("EEEE").format(df.parse(next_admission_date));} catch(ParseException e){}
+                t.setText(getResources().getString(R.string.new_appointment_tab_time_no_admissions).replace("%nd",dt+", "+next_admission_date).replace("%nh",next_admission_hour));
                 t.setVisibility(View.VISIBLE);
                 c.setVisibility(View.GONE);
+                t.setOnClickListener(new View.OnClickListener(){@Override public void onClick(View v){
+                    try{date=df.parse(next_admission_date);} catch(ParseException e){}
+                    updateDate();
+                }});
             }});
         }else{
             EditAppointment.this.runOnUiThread(new Runnable(){
@@ -472,4 +475,20 @@ public class EditAppointment extends AppCompatActivity{
         setResult(Activity.RESULT_OK,ret);
         finish();
     }
+
+    public void showLoading(){
+        EditAppointment.this.runOnUiThread(new Runnable(){public void run(){
+            TextView t=(TextView)EditAppointment.this.findViewById(R.id.response);
+            t.setText(getResources().getString(R.string.loading));
+            t.setVisibility(View.VISIBLE);
+        }});
+    }
+
+    public void hideLoading(){
+        EditAppointment.this.runOnUiThread(new Runnable(){public void run(){
+            TextView t=(TextView)EditAppointment.this.findViewById(R.id.response);
+            t.setVisibility(View.GONE);
+        }});
+    }
+
 }

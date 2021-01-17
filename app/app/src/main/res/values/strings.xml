@@ -35,7 +35,7 @@
     <string name="new_appointment_tab_time_btn_previousday">&lt;</string>
     <string name="new_appointment_tab_time_btn_nextday">&gt;</string>
     <string name="new_appointment_tab_time_appointment_label">Zarezerwowane</string>
-    <string name="new_appointment_tab_time_no_admissions">W tym dniu wybrany lekarz nie przyjmuje.\n\nNajbliższa możliwa data: %nd %nh</string>
+    <string name="new_appointment_tab_time_no_admissions">W tym dniu wybrany lekarz nie przyjmuje.\n\nNajbliższa możliwa data: %nd</string>
     <string name="new_appointment_tab_time_no_doctor_selected">Nie wybrano lekarza.</string>
     <string name="new_appointment_tab_time_select_hour">WYBIERZ GODZINĘ</string>
     <string name="new_appointment_tab_time_no_time_selected">Musisz wybrać godzinę.</string>
@@ -57,14 +57,14 @@
     <string name="settings_calendar_integration_ask">Pytaj za każdym razem</string>
     <string name="settings_calendar_integration_no">Nigdy nie zapisuj</string>
     <string name="settings_configuration">Konfiguracja</string>
-    <string name="settings_configuration_time_to_edit">Czas na edycję wizyty</string>
+    <string name="settings_configuration_time_to_edit">Czas na edycję wizyty:</string>
 
     <!-- error: no login data -->
     <string name="error_no_login_data_title">Uwaga</string>
     <string name="error_no_login_data_message">Brak danych logowania - aplikacja nie będzie działać poprawnie, dopóki nie wprowadzisz ich w ustawieniach.</string>
     <string name="error_no_login_data_open_settings">Otwórz ustawienia</string>
-
     <string name="main_page_hello">Ładowanie...</string>
+    <string name="main_page_no_login">Wprowadź nazwę użytkownika i hasło.</string>
 
     <!-- dni tygodnia -->
     <string name="weekday_monday">Poniedziałek</string>
@@ -85,4 +85,7 @@
     <string name="edit_appointment_confirm_cancel">Czy na pewno chcesz odwołać wizytę?</string>
     <string name="edit_appointment_cancel_error">Nie udało się odwołać wizyty.</string>
     <string name="edit_appointment_success">Wizyta została zmieniona pomyślnie.</string>
+
+    <string name="logged_in_as">Zalogowany jako:</string>
+    <string name="not_logged_in">Niezalogowany</string>
 </resources>

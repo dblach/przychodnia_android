@@ -39,8 +39,9 @@ import android.widget.TextView;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
-import android.widget.Toast;
 import android.content.Intent;
+import java.text.ParseException;
+import android.widget.ScrollView;
 
 public class NewAppointment_tabTime extends Fragment{
     private static final String ARG_PARAM1="param1";
@@ -54,18 +55,13 @@ public class NewAppointment_tabTime extends Fragment{
     private int day_end;
     private int h;
     private int m;
-    private String next_admission_day="";
+    private String next_admission_date="";
     private String next_admission_hour="";
     private String s_date;
     private String s_time_start="";
     private String s_time_stop;
 
-    private String mParam1;
-    private String mParam2;
-
-    public NewAppointment_tabTime(){
-
-    }
+    public NewAppointment_tabTime(){}
 
     public static NewAppointment_tabTime newInstance(String param1,String param2){
         NewAppointment_tabTime fragment=new NewAppointment_tabTime();
@@ -79,10 +75,6 @@ public class NewAppointment_tabTime extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        if(getArguments()!=null){
-            mParam1=getArguments().getString(ARG_PARAM1);
-            mParam2=getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -197,12 +189,9 @@ public class NewAppointment_tabTime extends Fragment{
                                         day_end=Integer.parseInt(o.getString("d").substring(0,2))+1;
                                     else day_end=1;
                                 }
-                                //TODO: dodać wyświetlanie najbliższej daty
-                                //if(day_start==0&&day_end==1){
-                                //next_admission_day=o.getString("next_admission_day");
-                                //next_admission_day=weekdays[Integer.parseInt(o.getString("next_admission_day"))];
-                                //next_admission_hour=o.getString("next_admission_hour");
-                                //}
+                                if(o.getString("type").equals("next")){
+                                    next_admission_date=o.getString("d");
+                                }
                             }
 
                             check_for_no_admissions();
@@ -345,8 +334,10 @@ public class NewAppointment_tabTime extends Fragment{
     public void showErrorNoDoctorSelected(){
         getActivity().runOnUiThread(new Runnable(){public void run(){
             TextView t=(TextView)getView().findViewById(R.id.response);
+            ScrollView s=(ScrollView)getView().findViewById(R.id.sv);
             t.setText(getResources().getString(R.string.new_appointment_tab_time_no_doctor_selected));
             t.setVisibility(View.VISIBLE);
+            s.setVisibility(View.GONE);
         }});
     }
 
@@ -355,9 +346,15 @@ public class NewAppointment_tabTime extends Fragment{
         final CalendarDayView c=(CalendarDayView)getView().findViewById(R.id.calendar);
         if(day_start==0&&day_end==1){
             getActivity().runOnUiThread(new Runnable(){public void run(){
-                t.setText(getResources().getString(R.string.new_appointment_tab_time_no_admissions).replace("%nd",next_admission_day).replace("%nh",next_admission_hour));
+                String dt="";
+                try{dt=new SimpleDateFormat("EEEE").format(df.parse(next_admission_date));} catch(ParseException e){}
+                t.setText(getResources().getString(R.string.new_appointment_tab_time_no_admissions).replace("%nd",dt+", "+next_admission_date).replace("%nh",next_admission_hour));
                 t.setVisibility(View.VISIBLE);
                 c.setVisibility(View.GONE);
+                t.setOnClickListener(new View.OnClickListener(){@Override public void onClick(View v){
+                    try{date=df.parse(next_admission_date);} catch(ParseException e){}
+                    updateDate();
+                }});
             }});
         }
         else{
@@ -379,22 +376,19 @@ public class NewAppointment_tabTime extends Fragment{
     }
 
     public void savetocalendar(){
+        Context ctx=getContext();
+        SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+        String doctor_name=pref.getString("NewAppointment_doctor_name","");
         Calendar cal=Calendar.getInstance();
         Calendar end=Calendar.getInstance();
-        try{
-            cal.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s_date+' '+s_time_start));
-        }
-        catch(Exception e){}
-        try{
-            end.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s_date+' '+s_time_stop));
-        }
-        catch(Exception e){}
+        try{cal.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s_date+' '+s_time_start));} catch(Exception e){}
+        try{end.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s_date+' '+s_time_stop));} catch(Exception e){}
         Intent intent=new Intent(Intent.ACTION_EDIT);
         intent.setType("vnd.android.cursor.item/event");
         intent.putExtra("beginTime",cal.getTimeInMillis());
         intent.putExtra("allDay",false);
         intent.putExtra("endTime",end.getTimeInMillis());
-        intent.putExtra("title","Wizyta lekarska");
+        intent.putExtra("title","Wizyta lekarska: "+doctor_name);
         startActivity(intent);
         getActivity().finish();
     }

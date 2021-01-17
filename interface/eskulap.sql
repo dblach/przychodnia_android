@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 06 Gru 2020, 19:06
+-- Czas generowania: 17 Sty 2021, 21:23
 -- Wersja serwera: 10.4.11-MariaDB
 -- Wersja PHP: 7.4.5
 
@@ -114,7 +114,7 @@ CREATE TABLE `pacjenci` (
 INSERT INTO `pacjenci` (`id`, `imie`, `nazwisko`, `data_zapisania`, `notatki`, `login`) VALUES
 (1, 'Jan', 'Kowalski', '2018-12-11', 'bla1\nbla2', ''),
 (2, 'Adam', 'Nowak', '2019-01-01', '', ''),
-(5, 'Karol', 'Borowiecki', '2019-01-21', 'Test123\nTest456', 'kborowiecki');
+(5, 'Dominik', 'Błach', '2019-01-21', 'Test123\nTest456', 'kborowiecki');
 
 -- --------------------------------------------------------
 
@@ -200,7 +200,10 @@ INSERT INTO `wizyty` (`id`, `pacjent_id`, `lekarz_id`, `data`, `czas_rozpoczecia
 (41, 5, 1, '2020-12-08', '09:00:00', '09:30:00', '', 1),
 (42, 5, 2, '2020-12-07', '11:30:00', '12:00:00', '', 0),
 (43, 5, 2, '2020-12-16', '13:00:00', '13:30:00', '', 1),
-(44, 5, 1, '2020-12-15', '14:00:00', '14:30:00', '', 0);
+(44, 5, 1, '2020-12-15', '09:30:00', '10:00:00', '', 1),
+(45, 5, 2, '2020-12-14', '10:30:00', '11:00:00', '', 0),
+(46, 5, 1, '2021-01-19', '09:00:00', '09:30:00', '', 0),
+(47, 5, 1, '2021-01-19', '14:00:00', '14:30:00', '', 0);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -284,7 +287,7 @@ ALTER TABLE `wiadomosci`
 -- AUTO_INCREMENT dla tabeli `wizyty`
 --
 ALTER TABLE `wizyty`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- Ograniczenia dla zrzutów tabel

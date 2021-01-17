@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -15,10 +14,29 @@ import com.google.android.material.navigation.NavigationView;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.Intent;
+import android.view.View;
+import android.widget.TextView;
+import okhttp3.Callback;
+import okhttp3.Request;
+import android.content.Context;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.RequestBody;
+import okhttp3.FormBody;
+import okhttp3.Call;
+import okhttp3.Callback;
+import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONException;
+import android.widget.Toast;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
-public class MainActivity extends AppCompatActivity  {
-
+public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
+    String user="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +45,11 @@ public class MainActivity extends AppCompatActivity  {
 
         AddNavigationView();
         CheckForSavedPreferences();
+        CheckForInternet();
     }
 
     public void AddNavigationView(){
+        final Context ctx=this;
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -43,7 +63,14 @@ public class MainActivity extends AppCompatActivity  {
 
         nav_view.setCheckedItem(R.id.main);
 
-        final Context ctx=this;
+        Boolean menu_active=false;
+        SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+        String h=pref.getString("sql_hostname","");
+        String u=pref.getString("sql_username","");
+        String p=pref.getString("sql_password","");
+        if(!h.equals("")&&!u.equals("")&&!p.equals("")) menu_active=true;
+        final Boolean m=menu_active;
+
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -53,14 +80,16 @@ public class MainActivity extends AppCompatActivity  {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MainPageFragment()).commit();
                         break;
                     case R.id.news:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new NewsFragment()).commit();
+                        if(m) getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new NewsFragment()).commit();
                         break;
                     case R.id.appointments:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MyAppointments()).commit();
+                        if(m) getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MyAppointments()).commit();
                         break;
                     case R.id.new_appointment:
-                        i=new Intent(ctx,NewAppointment.class);
-                        startActivity(i);
+                        if(m){
+                            i=new Intent(ctx,NewAppointment.class);
+                            startActivity(i);
+                        }
                         break;
                     case R.id.settings:
                         i=new Intent(ctx,Settings.class);
@@ -108,8 +137,11 @@ public class MainActivity extends AppCompatActivity  {
                     });
             alertDialog.show();
         }
-    }
+        else{
+            getUserFullName();
+        }
 
+    }
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START))
@@ -117,4 +149,54 @@ public class MainActivity extends AppCompatActivity  {
         else
             super.onBackPressed();
     }
+
+    public void getUserFullName(){
+        Context ctx=this;
+        SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+        String sql_hostname=pref.getString("sql_hostname","");
+        String sql_username=pref.getString("sql_username","");
+        String sql_password=pref.getString("sql_password","");
+        OkHttpClient client=new OkHttpClient();
+        String url=sql_hostname+"/get_user.php";
+        RequestBody post_data=new FormBody.Builder().add("username",sql_username).add("password",sql_password).build();
+        Request request=new Request.Builder().url(url).post(post_data).build();
+        client.newCall(request).enqueue(new Callback(){
+            @Override public void onFailure(Call call,IOException e){}
+            @Override public void onResponse(Call call,Response response) throws IOException{
+                if(response.isSuccessful()){
+                    String r=response.body().string();
+                    try{
+                        JSONArray array=new JSONArray(r);
+                        JSONObject o=array.getJSONObject(0);
+                        final String username=o.getString("user");
+                        MainActivity.this.runOnUiThread(new Runnable(){public void run(){
+                            NavigationView nv=(NavigationView)findViewById(R.id.nav_view);
+                            View h=nv.getHeaderView(0);
+                            TextView u=(TextView)h.findViewById(R.id.user);
+                            u.setText(username);
+                        }});
+                    }catch(JSONException e){}
+                }
+            }
+        });
+    }
+
+    public void CheckForInternet(){
+        if (isNetwork(MainActivity.this)){
+            Toast.makeText(MainActivity.this, "Internet connected", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Internet not connected", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public boolean isNetwork(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
+
 }

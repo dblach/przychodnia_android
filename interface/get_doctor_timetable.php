@@ -30,5 +30,18 @@ if($l){
 	}
 }
 
+if(is_null($a[0]['d'])){
+	$a[$c]['type']='next';
+	$a[$c]['d']='';
+	$d=$day;
+	$i=0;
+	while($a[$c]['d']==''){
+		$d++;
+		$i++;
+		if($d>7) $d=1;
+		if(mysqli_num_rows(mysqli_query($l,"select id_przyjecia from godziny_przyjec where dzien_tygodnia=$d and id_lekarza=$idd"))>0) $a[$c]['d']=date('d.m.Y',strtotime($date.' + '.$i.' days'));
+	}
+}
+
 echo json_encode($a,JSON_UNESCAPED_UNICODE);
 ?>

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.SharedPreferences;
-//import android.widget.Toast;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.io.IOException;
@@ -78,7 +77,7 @@ public class MyAppointments extends Fragment{
     private ArrayList<Appointment> ReceiveData(){
         final Context ctx=getContext();
         SharedPreferences pref=ctx.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
-        String sql_hostname=pref.getString("sql_hostname","");
+        final String sql_hostname=pref.getString("sql_hostname","");
         String sql_username=pref.getString("sql_username","");
         String sql_password=pref.getString("sql_password","");
         String limit=Integer.toString(pref.getInt("myappointments_display_count",0));
@@ -98,7 +97,7 @@ public class MyAppointments extends Fragment{
                         JSONArray array=new JSONArray(r);
                         for(int i=0;i<array.length();i++){
                             JSONObject o=array.getJSONObject(i);
-                            Appointment a=new Appointment(o.getString("id"),o.getString("czas_rozpoczecia"),o.getString("czas_zakonczenia"),o.getString("data"),o.getString("nazwisko"),o.getString("imie"));
+                            Appointment a=new Appointment(o.getString("id"),o.getString("czas_rozpoczecia"),o.getString("czas_zakonczenia"),o.getString("data"),o.getString("nazwisko"),o.getString("imie"),sql_hostname+"/doctor/"+o.getString("zdjecie"),sql_hostname+"/clinic/"+o.getString("ikona"));
                             appointmentsList.add(i,a);
                         }
                     }

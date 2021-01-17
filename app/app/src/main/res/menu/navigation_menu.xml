@@ -22,38 +22,5 @@
             android:id="@+id/settings"
             android:icon="@android:drawable/ic_menu_preferences"
             android:title="@string/menu_settings_label"></item>
-        <!--
-        <item
-            android:id="@+id/test_cardview"
-            android:title="Test CardView" />
-        <item
-            android:id="@+id/test_cardview_fragment"
-            android:title="Test CardView F" />
--->
-        <!--
-        <item android:id="@+id/call"
-            android:title="Call"
-            android:icon="@android:drawable/ic_menu_call">
-        </item>
-        -->
     </group>
-    <!--
-    <item android:title="Communicate">
-        <menu>
-            <item android:id="@+id/send"
-                android:title="Send"
-                android:icon="@android:drawable/ic_menu_send">
-            </item>
-            <item android:id="@+id/share"
-                android:title="Share"
-                android:icon="@android:drawable/ic_menu_share">
-            </item>
-            <item android:id="@+id/close"
-                android:title="Close"
-                android:icon="@android:drawable/ic_menu_close_clear_cancel">
-            </item>
-        </menu>
-
-    </item>
-    -->
 </menu>

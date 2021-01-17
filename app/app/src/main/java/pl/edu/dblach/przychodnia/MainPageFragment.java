@@ -81,7 +81,11 @@ public class MainPageFragment extends Fragment{
         String sql_username=pref.getString("sql_username","");
         String sql_password=pref.getString("sql_password","");
 
-        if(sql_hostname.equals("")) return;
+        if(sql_hostname.equals("")||sql_username.equals("")||sql_password.equals("")){
+            TextView text=(TextView)getView().findViewById(R.id.welcome_text);
+            text.setText(getResources().getString(R.string.main_page_no_login));
+            return;
+        }
 
         OkHttpClient client=new OkHttpClient();
         String url=sql_hostname+"/get_main_page.php";

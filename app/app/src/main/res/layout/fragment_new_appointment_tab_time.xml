@@ -67,15 +67,16 @@
             android:visibility="invisible" />
 
         <ScrollView
+            android:id="@+id/sv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
+
             <com.framgia.library.calendardayview.CalendarDayView
                 android:id="@+id/calendar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:eventMarginLeft="0dp"
-                app:dayHeight="@dimen/dayHeight"/>
+                app:dayHeight="@dimen/dayHeight"
+                app:eventMarginLeft="0dp" />
         </ScrollView>
 
     </LinearLayout>

@@ -15,7 +15,8 @@ import android.content.Context;
 import android.view.View;
 import android.content.Intent;
 import android.app.Activity;
-import android.widget.Toast;
+import android.widget.ImageView;
+import com.squareup.picasso.Picasso;
 
 public class MyAppointmentsAdapter extends RecyclerView.Adapter<MyAppointmentsAdapter.DataObjectHolder>{
     private ArrayList<Appointment> appointments;
@@ -27,12 +28,16 @@ public class MyAppointmentsAdapter extends RecyclerView.Adapter<MyAppointmentsAd
         TextView description_line1;
         TextView description_line2;
         TextView description_line3;
+        ImageView icon_doctor;
+        ImageView icon_clinic;
 
         public DataObjectHolder(View itemView){
             super(itemView);
             description_line1=(TextView)itemView.findViewById(R.id.description_line1);
             description_line2=(TextView)itemView.findViewById(R.id.description_line2);
             description_line3=(TextView)itemView.findViewById(R.id.description_line3);
+            icon_doctor=(ImageView)itemView.findViewById(R.id.icon_doctor);
+            icon_clinic=(ImageView)itemView.findViewById(R.id.icon_clinic);
         }
 
         @Override public void onClick(View v) {
@@ -76,6 +81,8 @@ public class MyAppointmentsAdapter extends RecyclerView.Adapter<MyAppointmentsAd
         holder.description_line1.setText(appointments.get(position).data()+", "+appointments.get(position).godzina_rozpoczecia());
         holder.description_line2.setText(appointments.get(position).lekarz());
         holder.description_line3.setText("");
+        Picasso.with(mContext).load(appointments.get(position).ikona_lekarz()).into(holder.icon_doctor);
+        Picasso.with(mContext).load(appointments.get(position).ikona_specjalizacja()).into(holder.icon_clinic);
 
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View v){
