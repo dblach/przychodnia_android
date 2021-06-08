@@ -9,7 +9,7 @@ function czy_termin_wolny(){
 	global $idd;
 	//global $idw;
 	$k=true;
-	$q=mysqli_query($l,"select id,czas_rozpoczecia,czas_zakonczenia from wizyty where lekarz_id=$idd and data=\"$date\"");
+	$q=mysqli_query($l,"select id,czas_rozpoczecia,czas_zakonczenia from wizyty where lekarz_id=$idd and data=\"$date\" and odwolana=0");
 	$tgp=strtotime($gp);
 	$tgk=strtotime($gk);
 	//$idw=mysqli_fetch_array(mysqli_query($l,"select max(id) from wizyty"))[0];

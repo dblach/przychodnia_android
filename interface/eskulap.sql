@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 17 Sty 2021, 21:23
+-- Czas generowania: 08 Cze 2021, 19:58
 -- Wersja serwera: 10.4.11-MariaDB
 -- Wersja PHP: 7.4.5
 
@@ -42,10 +42,13 @@ CREATE TABLE `godziny_przyjec` (
 --
 
 INSERT INTO `godziny_przyjec` (`id_przyjecia`, `id_lekarza`, `specjalizacja`, `dzien_tygodnia`, `godzina_rozpoczecia`, `godzina_zakonczenia`, `pomieszczenie`) VALUES
-(1, 2, 1, 1, '10:00:00', '12:00:00', '3'),
-(2, 2, 1, 3, '12:00:00', '14:00:00', '3'),
-(3, 1, 1, 2, '09:00:00', '10:00:00', '2'),
-(4, 1, 1, 2, '14:00:00', '16:00:00', '2');
+(32, 18, 2, 1, '09:00:00', '11:00:00', '12'),
+(33, 18, 1, 4, '09:00:00', '10:00:00', ''),
+(34, 18, 2, 3, '10:00:00', '10:30:00', ''),
+(35, 18, 1, 2, '09:30:00', '10:00:00', ''),
+(36, 18, 1, 2, '11:00:00', '12:00:00', ''),
+(37, 19, 1, 4, '12:00:00', '14:00:00', '12'),
+(38, 19, 1, 5, '10:00:00', '12:00:00', '12');
 
 -- --------------------------------------------------------
 
@@ -63,9 +66,9 @@ CREATE TABLE `konfiguracja` (
 --
 
 INSERT INTO `konfiguracja` (`ustawienie`, `wartosc`) VALUES
-('logo', 'icon_main.png'),
+('logo', '5beee9d82a83652050873b3ba4938794.jpg'),
 ('tekst_powitalny', 'Zapraszamy!'),
-('czas_na_edycje', '2');
+('czas_na_edycje', '3');
 
 -- --------------------------------------------------------
 
@@ -79,8 +82,8 @@ CREATE TABLE `lekarze` (
   `imie` text COLLATE utf8_polish_ci NOT NULL,
   `specjalizacja` int(11) NOT NULL,
   `uprawnienia` int(11) NOT NULL,
-  `nazwa` text COLLATE utf8_polish_ci NOT NULL,
-  `zdjecie` varchar(30) COLLATE utf8_polish_ci NOT NULL
+  `nazwa` varchar(30) COLLATE utf8_polish_ci NOT NULL,
+  `zdjecie` varchar(36) COLLATE utf8_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
@@ -88,9 +91,8 @@ CREATE TABLE `lekarze` (
 --
 
 INSERT INTO `lekarze` (`id`, `nazwisko`, `imie`, `specjalizacja`, `uprawnienia`, `nazwa`, `zdjecie`) VALUES
-(1, 'Wilczur', 'Rafał', 1, 2, 'rwilczur', 'rwilczur.jpg'),
-(2, 'House', 'Gregory', 1, 1, 'ghouse', 'ghouse.jpg'),
-(3, 'Kotek', 'Zdzisław', 2, 1, 'zkotek', 'zkotek.jpg');
+(18, 'Wilczur', 'Rafał', 2, 0, 'rwilczur1', '6f102117d65723478478dfe433982987.jpg'),
+(19, 'Pawlicki', 'Doktor', 1, 0, 'dpawlicki', '673babd4bec6e4ff898c3f1cc76f168c.jpg');
 
 -- --------------------------------------------------------
 
@@ -102,19 +104,24 @@ CREATE TABLE `pacjenci` (
   `id` int(11) NOT NULL,
   `imie` text COLLATE utf8_polish_ci NOT NULL,
   `nazwisko` text COLLATE utf8_polish_ci NOT NULL,
+  `adres_ulica` varchar(100) COLLATE utf8_polish_ci NOT NULL,
+  `adres_kod` int(11) NOT NULL,
+  `adres_miasto` varchar(50) COLLATE utf8_polish_ci NOT NULL,
+  `telefon` varchar(12) COLLATE utf8_polish_ci NOT NULL,
   `data_zapisania` date NOT NULL,
-  `notatki` text COLLATE utf8_polish_ci NOT NULL,
-  `login` varchar(30) COLLATE utf8_polish_ci DEFAULT NULL
+  `notatki` varchar(999) COLLATE utf8_polish_ci NOT NULL,
+  `login` varchar(30) COLLATE utf8_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
 -- Zrzut danych tabeli `pacjenci`
 --
 
-INSERT INTO `pacjenci` (`id`, `imie`, `nazwisko`, `data_zapisania`, `notatki`, `login`) VALUES
-(1, 'Jan', 'Kowalski', '2018-12-11', 'bla1\nbla2', ''),
-(2, 'Adam', 'Nowak', '2019-01-01', '', ''),
-(5, 'Dominik', 'Błach', '2019-01-21', 'Test123\nTest456', 'kborowiecki');
+INSERT INTO `pacjenci` (`id`, `imie`, `nazwisko`, `adres_ulica`, `adres_kod`, `adres_miasto`, `telefon`, `data_zapisania`, `notatki`, `login`) VALUES
+(1, 'Jan', 'Kowalski', 'Fiołkowa 5', 12345, 'Warszawa', '', '2018-12-11', 'bla1\nbla2', 'jkowalski'),
+(2, 'Adam', 'Nowak', 'Widok 4', 45678, 'Wrocław', '', '2019-01-01', '', 'anowak'),
+(5, 'Dominik', 'Błach', 'Azaliowa 6', 11111, 'Szczecin', '', '2019-01-21', 'Test123\nTest456', 'kborowiecki'),
+(10, 'Janusz', 'Kowalski', 'Prosta 1', 98765, 'Kraków', '', '0000-00-00', '', 'jkowal123');
 
 -- --------------------------------------------------------
 
@@ -125,7 +132,7 @@ INSERT INTO `pacjenci` (`id`, `imie`, `nazwisko`, `data_zapisania`, `notatki`, `
 CREATE TABLE `specjalizacje` (
   `id` int(11) NOT NULL,
   `nazwa` varchar(30) COLLATE utf8_polish_ci NOT NULL,
-  `ikona` varchar(30) COLLATE utf8_polish_ci NOT NULL
+  `ikona` varchar(36) COLLATE utf8_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
@@ -133,9 +140,33 @@ CREATE TABLE `specjalizacje` (
 --
 
 INSERT INTO `specjalizacje` (`id`, `nazwa`, `ikona`) VALUES
-(1, 'Choroby wewnętrzne', 'internistyczna.png'),
-(2, 'Laryngologia', 'laryngologiczna.png'),
-(4, 'Stomatologia', 'stomatologiczna.jpg');
+(1, 'Choroby wewnętrzne', '14cae9dc39d5c98923b278e899bba032.jpg'),
+(2, 'Laryngologia', '83539628f756c0e605e19e476bcd7e20.jpg'),
+(4, 'Stomatologia', '050baea32f262fb84624a643cb102ad1.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `uzytkownicy`
+--
+
+CREATE TABLE `uzytkownicy` (
+  `id` int(11) NOT NULL,
+  `login` varchar(30) NOT NULL,
+  `rola` enum('pacjent','lekarz','administrator','') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `uzytkownicy`
+--
+
+INSERT INTO `uzytkownicy` (`id`, `login`, `rola`) VALUES
+(1, 'dblach', 'administrator'),
+(2, 'kborowiecki', 'pacjent'),
+(6, 'testadm', 'administrator'),
+(12, 'jkowal123', 'pacjent'),
+(16, 'rwilczur1', 'lekarz'),
+(17, 'dpawlicki', 'lekarz');
 
 -- --------------------------------------------------------
 
@@ -147,7 +178,7 @@ CREATE TABLE `wiadomosci` (
   `id` int(11) NOT NULL,
   `nazwa` varchar(50) NOT NULL,
   `tresc` text NOT NULL,
-  `obraz` varchar(30) NOT NULL,
+  `obraz` varchar(36) NOT NULL,
   `data_dodania` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -156,9 +187,9 @@ CREATE TABLE `wiadomosci` (
 --
 
 INSERT INTO `wiadomosci` (`id`, `nazwa`, `tresc`, `obraz`, `data_dodania`) VALUES
-(1, 'test długiej wiadomości', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam non metus a velit iaculis aliquet. Ut molestie turpis mi, sed varius nibh faucibus ac. Suspendisse nec ultrices mi, cursus cursus odio. Pellentesque id justo mi. Pellentesque pellentesque consectetur fringilla. Quisque in tincidunt arcu. Duis lacinia tincidunt lacus, nec viverra ipsum placerat at. Fusce eget mauris ut metus placerat rutrum. Etiam convallis posuere gravida. Sed mauris libero, lobortis et lacinia sed, faucibus sit amet massa. In a diam sollicitudin, egestas ante et, pretium quam. Pellentesque sit amet odio velit. Phasellus ac nibh aliquet, interdum elit ac, feugiat urna.\r\n\r\nUt in velit vitae turpis fringilla suscipit. Cras consequat maximus purus hendrerit mattis. Fusce faucibus finibus nunc nec ultricies. Vivamus ullamcorper justo nec ornare porta. Ut ut nulla finibus, viverra sem eget, elementum nulla. Donec euismod sapien et tortor volutpat cursus. Pellentesque suscipit id enim vitae fermentum. Nam a nisl vestibulum, euismod velit eu, fermentum lacus. Morbi a metus quis sapien cursus consequat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras id magna vitae mi pretium rutrum quis nec sem. Curabitur quis ex non sem mollis consectetur. Aliquam sed orci nec nisi dictum tempor vulputate ac sapien. Curabitur fringilla vel lorem ut viverra. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n\r\nPhasellus hendrerit in velit vel porttitor. Phasellus feugiat consequat ante vel pretium. Sed vel lobortis lacus. Mauris nec tristique dui. Mauris feugiat, justo sed molestie vestibulum, augue nibh malesuada leo, vitae imperdiet ipsum tellus a nunc. Sed sed ante enim. Nam dui ex, consequat non arcu nec, finibus semper nisl. Donec mi enim, accumsan et fringilla eu, cursus vitae velit.\r\n\r\nNulla eleifend ullamcorper nibh. Phasellus molestie a augue at interdum. Nulla venenatis nec erat in euismod. In lacinia tortor sed hendrerit pretium. Integer non lorem magna. Proin ut orci id diam posuere pretium ut ac ipsum. Ut placerat ligula quis fermentum tincidunt. Morbi non nisl mauris. Donec rutrum ullamcorper sagittis. Fusce iaculis mattis dignissim.\r\n\r\nNullam condimentum lectus nec dui sodales ultrices. Suspendisse et metus ut lorem aliquet hendrerit eu a diam. Nulla scelerisque sodales justo ac tincidunt. Integer ornare gravida eros tempus sagittis. Vestibulum in auctor magna. Integer varius mauris sit amet lacus pulvinar convallis eu a quam. Donec malesuada eget ipsum sit amet malesuada.', 'lorem.jpg', '2020-10-14 14:06:20'),
-(2, 'Teleporada', 'Przychodnia udziela teleporad pod nr tel. 123456789.', 'phone.jpg', '2020-11-06 17:16:04'),
-(3, 'Zmiana godzin otwarcia', 'Od 9 listopada przychodnia będzie czynna w godzinach 10-16.', 'clock.jpg', '2020-11-08 17:29:34');
+(1, 'test długiej wiadomości', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam non metus a velit iaculis aliquet. Ut molestie turpis mi, sed varius nibh faucibus ac. Suspendisse nec ultrices mi, cursus cursus odio. Pellentesque id justo mi. Pellentesque pellentesque consectetur fringilla. Quisque in tincidunt arcu. Duis lacinia tincidunt lacus, nec viverra ipsum placerat at. Fusce eget mauris ut metus placerat rutrum. Etiam convallis posuere gravida. Sed mauris libero, lobortis et lacinia sed, faucibus sit amet massa. In a diam sollicitudin, egestas ante et, pretium quam. Pellentesque sit amet odio velit. Phasellus ac nibh aliquet, interdum elit ac, feugiat urna.\r\n\r\nUt in velit vitae turpis fringilla suscipit. Cras consequat maximus purus hendrerit mattis. Fusce faucibus finibus nunc nec ultricies. Vivamus ullamcorper justo nec ornare porta. Ut ut nulla finibus, viverra sem eget, elementum nulla. Donec euismod sapien et tortor volutpat cursus. Pellentesque suscipit id enim vitae fermentum. Nam a nisl vestibulum, euismod velit eu, fermentum lacus. Morbi a metus quis sapien cursus consequat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras id magna vitae mi pretium rutrum quis nec sem. Curabitur quis ex non sem mollis consectetur. Aliquam sed orci nec nisi dictum tempor vulputate ac sapien. Curabitur fringilla vel lorem ut viverra. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\r\n\r\nPhasellus hendrerit in velit vel porttitor. Phasellus feugiat consequat ante vel pretium. Sed vel lobortis lacus. Mauris nec tristique dui. Mauris feugiat, justo sed molestie vestibulum, augue nibh malesuada leo, vitae imperdiet ipsum tellus a nunc. Sed sed ante enim. Nam dui ex, consequat non arcu nec, finibus semper nisl. Donec mi enim, accumsan et fringilla eu, cursus vitae velit.\r\n\r\nNulla eleifend ullamcorper nibh. Phasellus molestie a augue at interdum. Nulla venenatis nec erat in euismod. In lacinia tortor sed hendrerit pretium. Integer non lorem magna. Proin ut orci id diam posuere pretium ut ac ipsum. Ut placerat ligula quis fermentum tincidunt. Morbi non nisl mauris. Donec rutrum ullamcorper sagittis. Fusce iaculis mattis dignissim.\r\n\r\nNullam condimentum lectus nec dui sodales ultrices. Suspendisse et metus ut lorem aliquet hendrerit eu a diam. Nulla scelerisque sodales justo ac tincidunt. Integer ornare gravida eros tempus sagittis. Vestibulum in auctor magna. Integer varius mauris sit amet lacus pulvinar convallis eu a quam. Donec malesuada eget ipsum sit amet malesuada.', 'lorem1.jpg', '2021-06-02 21:39:34'),
+(2, 'Teleporada', 'Przychodnia udziela teleporad pod nr tel. 123456789.', '04ebbc16f261e64c7152d3ddb96c9c13.jpg', '2021-06-02 21:40:34'),
+(3, 'Zmiana godzin otwarcia', 'Od 9 listopada przychodnia będzie czynna w godzinach 10-16.', '77e189760987180b34dd7bc253c1d5f5.jpg', '2021-06-02 21:40:22');
 
 -- --------------------------------------------------------
 
@@ -173,7 +204,7 @@ CREATE TABLE `wizyty` (
   `data` date NOT NULL,
   `czas_rozpoczecia` time NOT NULL,
   `czas_zakonczenia` time NOT NULL,
-  `notatka` text COLLATE utf8_polish_ci NOT NULL,
+  `notatka` varchar(1000) COLLATE utf8_polish_ci NOT NULL,
   `odwolana` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
@@ -182,28 +213,11 @@ CREATE TABLE `wizyty` (
 --
 
 INSERT INTO `wizyty` (`id`, `pacjent_id`, `lekarz_id`, `data`, `czas_rozpoczecia`, `czas_zakonczenia`, `notatka`, `odwolana`) VALUES
-(1, 1, 1, '2019-01-01', '12:00:00', '13:00:00', '', 0),
-(2, 1, 2, '2019-01-01', '15:00:00', '16:00:00', 'test', 0),
-(3, 1, 2, '2019-01-01', '16:00:00', '16:30:00', '', 0),
-(9, 1, 2, '2019-01-19', '00:00:00', '01:00:00', '', 0),
-(10, 1, 2, '2019-01-19', '03:00:00', '05:00:00', 'fgsefg', 0),
-(11, 5, 2, '2019-01-23', '09:00:00', '10:00:00', '', 0),
-(12, 5, 1, '2020-05-21', '16:00:00', '16:30:00', '', 0),
-(19, 5, 1, '2020-06-02', '09:30:00', '10:00:00', '', 0),
-(20, 5, 1, '2020-06-02', '15:00:00', '15:30:00', '', 0),
-(21, 5, 2, '2020-06-15', '11:00:00', '11:30:00', '', 0),
-(35, 5, 1, '2020-06-16', '15:00:00', '15:30:00', '', 0),
-(36, 5, 1, '2020-06-23', '14:30:00', '15:00:00', '', 0),
-(38, 5, 1, '2020-06-23', '09:00:00', '09:30:00', '', 0),
-(39, 5, 2, '2020-10-12', '10:30:00', '11:00:00', 'Aspiryna 2x dziennie\r\nIbuprom 1x dziennie', 0),
-(40, 5, 2, '2020-10-12', '11:30:00', '12:00:00', '', 0),
-(41, 5, 1, '2020-12-08', '09:00:00', '09:30:00', '', 1),
-(42, 5, 2, '2020-12-07', '11:30:00', '12:00:00', '', 0),
-(43, 5, 2, '2020-12-16', '13:00:00', '13:30:00', '', 1),
-(44, 5, 1, '2020-12-15', '09:30:00', '10:00:00', '', 1),
-(45, 5, 2, '2020-12-14', '10:30:00', '11:00:00', '', 0),
-(46, 5, 1, '2021-01-19', '09:00:00', '09:30:00', '', 0),
-(47, 5, 1, '2021-01-19', '14:00:00', '14:30:00', '', 0);
+(60, 5, 18, '2021-06-01', '09:30:00', '10:00:00', '', 1),
+(61, 5, 18, '2021-06-03', '09:10:00', '09:40:00', '', 0),
+(62, 10, 18, '2021-06-01', '11:00:00', '11:30:00', '', 0),
+(63, 1, 18, '2021-06-01', '09:30:00', '09:40:00', '', 0),
+(64, 10, 19, '2021-06-10', '13:00:00', '13:30:00', '', 0);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -221,19 +235,28 @@ ALTER TABLE `godziny_przyjec`
 -- Indeksy dla tabeli `lekarze`
 --
 ALTER TABLE `lekarze`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nazwa` (`nazwa`);
 
 --
 -- Indeksy dla tabeli `pacjenci`
 --
 ALTER TABLE `pacjenci`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `login` (`login`);
 
 --
 -- Indeksy dla tabeli `specjalizacje`
 --
 ALTER TABLE `specjalizacje`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indeksy dla tabeli `uzytkownicy`
+--
+ALTER TABLE `uzytkownicy`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `login` (`login`);
 
 --
 -- Indeksy dla tabeli `wiadomosci`
@@ -257,19 +280,19 @@ ALTER TABLE `wizyty`
 -- AUTO_INCREMENT dla tabeli `godziny_przyjec`
 --
 ALTER TABLE `godziny_przyjec`
-  MODIFY `id_przyjecia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_przyjecia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT dla tabeli `lekarze`
 --
 ALTER TABLE `lekarze`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT dla tabeli `pacjenci`
 --
 ALTER TABLE `pacjenci`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT dla tabeli `specjalizacje`
@@ -278,16 +301,22 @@ ALTER TABLE `specjalizacje`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT dla tabeli `uzytkownicy`
+--
+ALTER TABLE `uzytkownicy`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
 -- AUTO_INCREMENT dla tabeli `wiadomosci`
 --
 ALTER TABLE `wiadomosci`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT dla tabeli `wizyty`
 --
 ALTER TABLE `wizyty`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- Ograniczenia dla zrzutów tabel
